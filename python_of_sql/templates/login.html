@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>登入介面</title>
+  <style>
+    input {
+      display: inline;
+    }
+    body {
+        background-image: url('/static/background_02.jpg');
+        background-size: 100vw 100vh;
+        background-repeat: no-repeat;
+        margin: 0; 
+        padding: 0;
+    }
+    label {
+        color: #CCCCFF; 
+    }
+    .container {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+    form {
+        border: 2px solid #6633CC;
+        background-color: #6633CC; 
+        padding: 20px; 
+        width: fit-content; 
+        display: flex;
+        flex-direction: column;
+    }
+    input[type="submit"] {
+        font-size: 20px;
+        background-color: #FFA500;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form method="post" action="/login">
+      <h2>登入介面</h2>
+      <label for="username">帳號：</label><input id="username" name="username"><br>
+      <label for="password">密碼：</label><input type="password" id="password" name="password"><br>
+      <br/><br/><br/>
+      <input type="submit" value="送出">
+    </form>
+  </div>
+</body>
+</html>

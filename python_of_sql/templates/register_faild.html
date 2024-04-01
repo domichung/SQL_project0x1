@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>註冊失敗</title>
+  <style>
+    body {
+        background-image: url('/static/background_06.jpg'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #FFFFFF; /* 文字顏色設置為白色 */
+    }
+
+    #header {
+        padding: 10px;
+        background-color: #000033; /* 深蓝色，星空的夜色 */
+        color: #00FFFF; /* 青色，星星的颜色 */
+        font-size: 24px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 增加文字陰影效果 */
+        opacity: 0.7; /* 修改透明度 */
+    }
+
+    form {
+        text-align: center;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #000033; /* 深蓝色 */
+        border: none;
+        border-radius: 5px;
+        color: #00FFFF; /* 青色 */
+        cursor: pointer;
+        margin: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5); /* 增加按鈕的光暈效果 */
+        opacity: 0.7;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #000066; /* 更深的蓝色 */
+        box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.8); /* 懸停時增加光暈效果 */
+    }
+  </style>
+</head>
+<body>
+  <div id="header"><h3>註冊失敗:</h3><p>{{ reason }}</p></div>
+  <div>
+    <form method="post" action="/register_faild">
+      <input type="submit" value="回到選單介面" name="backtomenu">
+      <input type="submit" value="回到註冊介面" name="backtoregister">
+    </form>
+  </div>
+</body>
+</html>

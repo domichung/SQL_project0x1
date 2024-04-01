@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>登入選單</title>
+  <style>
+    body {
+        background-image: url('/static/background_05.jpg'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin: 0; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    #header {
+        padding: 10px;
+        background-color: #000033; /* 深蓝色，星空的夜色 */
+        color: #00FFFF; /* 青色，星星的颜色 */
+        font-size: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 增加文字陰影效果 */
+        opacity: 0.8; /* 修改透明度 */
+        width: 200px; /* 與註冊失敗頁面保持一致 */
+        text-align: center; /* 居中文字 */
+    }
+
+    form {
+        text-align: center;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #000033; /* 深蓝色 */
+        border: none;
+        border-radius: 5px;
+        color: #00FFFF; /* 青色 */
+        cursor: pointer;
+        margin: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5); /* 增加按鈕的光暈效果 */
+    }
+
+    input[type="submit"]:hover {
+        background-color: #000066; /* 更深的蓝色 */
+        box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.8); /* 懸停時增加光暈效果 */
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div id="header"><h1>註冊成功</h1></div>
+    <form method="post" action="/register_successful" >
+      <input type="submit" value="前往登入" name="go_login">
+    </form>
+  </div>
+</body>
+</html>
