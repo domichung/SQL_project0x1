@@ -1,1 +1,1 @@
-FLASK_APP=fuckusql.py
+FLASK_APP=sql_main.py
