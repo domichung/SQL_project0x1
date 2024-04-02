@@ -63,6 +63,13 @@
         <option>大四</option>
         <option>大便</option>
       </select>
+      <label for="Department">系所：</label>
+      <select id="Department" name="Department">
+        <option>請選擇你的系所</option>
+        {% for class_item in class_list %}
+            <option>{{ class_item }}</option>
+        {% endfor %}
+    </select>
       <label for="user_photo">照片：</label><input type="file" id="user_photo" name="user_photo" accept="image/png, image/jpeg" /><br>
       <input type="submit" value="註冊帳號">
     </form>

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # coding=utf-8
 # -*- coding: UTF-8 -*-
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect ,url_for
 import MySQLdb
+import domi_classlist ,domi_login ,domi_account
 
 app = Flask(__name__)
 
@@ -33,36 +34,12 @@ def action_login():
     username = request.form.get("username")
     pw = request.form.get("password")
 
-    # 建立資料庫連線
-    conn = MySQLdb.connect(host="127.0.0.1",
-                           user="login_ad",
-                           passwd="test1234",
-                           db="user_sos")
-    # 欲查詢的 query 指令
-    query = "SELECT password FROM people where username LIKE '{}%';".format(
-        username)
-    # 執行查詢
-    cursor = conn.cursor()
-    cursor.execute(query)
+    results = domi_login.check_login(username,pw)
 
-    results = "none"
-
-    # 取得並列出所有查詢結果
-    for (password, ) in cursor.fetchall():
-        results = "{}".format(password)
-
-    if (results == "none"):
-        print("警告 : 帳號不存在\n輸入帳號:" + username + "\n輸入密碼:" + pw)
-    else:
-        print("帳號:" + username + "\n輸入密碼:" + pw + "\n實際密碼:" + results + "\n")
-
-    #==============================================
-
-    # 比對帳號密碼是否正確
-    if results != pw:
+    if results == 0:
         return redirect('/login/faild')
     else:
-        return redirect('/choose')
+        return redirect(url_for('into_choose', username=username))
 
 # 登入失敗介面
 @app.route('/login/faild', methods=['GET'])  
@@ -77,17 +54,14 @@ def action_login_faild():
     if go_login:
         return redirect('/login')
     elif go_menu:
-        return redirect('/')
-
-# 進入選課系統
-@app.route('/choose', methods=['GET'])  
-def into_choose():
-    return render_template('choose_main.html')
+        return redirect('/')    
 
 # 註冊介面 
 @app.route('/register', methods=['GET'])  
 def show_register():
-    return render_template('register.html')
+    # print(domi_classlist.get_department_names()) #debug show class list
+    mylist = domi_classlist.get_department_names()
+    return render_template('register.html', class_list = mylist )
 
 @app.route('/register', methods=['POST'])
 def action_register():
@@ -99,35 +73,15 @@ def action_register():
     birthday = request.form.get("birthday")
     grade = request.form.get("grade")
     photo = request.form.get("user_photo")
-    
-    
-    # 建立資料庫連線
-    conn = MySQLdb.connect(host="127.0.0.1",
-                           user="login_ad",
-                           passwd="test1234",
-                           db="user_sos")
-    cursor = conn.cursor()
-    
-    # 檢查是否有相同用戶名的帳號
-    query = "SELECT username FROM people WHERE username = %s;"
-    cursor.execute(query, (username,))
-    existing_user = cursor.fetchone()
-    
-    if not (username and pw and repw and email and birthday and grade):
-        reason = "有欄位未填寫"
-        return render_template('register_faild.html', reason=reason)
-    elif existing_user:
-        reason = "已存在的用戶"
-        return render_template('register_faild.html', reason=reason)
-    elif pw != repw:
-        reason = "兩次密碼不相同"
-        return render_template('register_faild.html', reason=reason)
-    else:
-        # 如果不存在相同用戶名的帳號，則將新用戶的資料插入資料庫
-        query = "INSERT INTO people (username, password, mail, birthday, grade, user_photo) VALUES (%s, %s, %s, %s, %s, %s);"
-        cursor.execute(query, (username, pw, email, birthday, grade, photo))
-        conn.commit()
+    Department = request.form.get("Department")
+
+    reason = domi_account.check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Department ,photo)
+
+    if (reason == 1):
+        domi_account.insert_newaccount(username, pw, email, birthday, grade, Department, photo)
         return redirect('/register/successful')
+    else:
+        return render_template('register_faild.html', reason=reason)
     
 # 註冊失敗介面
 @app.route('/register/faild', methods=['GET'])  
@@ -155,6 +109,18 @@ def action_register_successful():
 
     if go_login:
         return redirect('/login')
+
+# 進入選課系統
+@app.route('/choose/<username>')  
+def into_choose(username):
+    return render_template('choose_main.html', username=username)
+
+@app.route('/choose_main', methods=['POST'])
+def choose_main():
+    go_login = request.form.get("backtomenu")
+
+    if go_login:
+        return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
