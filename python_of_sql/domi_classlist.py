@@ -4,9 +4,9 @@ def get_department_names():
     try:
         # 建立資料庫連線
         conn = MySQLdb.connect(host="127.0.0.1",
-                               user="read_bot",
-                               passwd="readbot123",
-                               db="course_selection")
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
         
         cursor = conn.cursor()
         

@@ -14,13 +14,13 @@ def check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Departmen
 
 def check_newaccount(name):
 
-    # 建立資料庫連線
+    # 建立讀取資料庫連線
     conn = MySQLdb.connect(host="127.0.0.1",
-                           user="read_bot",
-                           passwd="readbot123",
-                           db="course_selection")
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT password FROM user_box where username LIKE '{}%';".format(name)
+    query = "SELECT id FROM user_box where username LIKE '{}%';".format(name)
     # 執行查詢
     cursor = conn.cursor()
     cursor.execute(query)
@@ -29,13 +29,13 @@ def check_newaccount(name):
 
 def check_newmail(mail):
 
-    # 建立資料庫連線
+    # 建立讀取資料庫連線
     conn = MySQLdb.connect(host="127.0.0.1",
-                           user="read_bot",
-                           passwd="readbot123",
-                           db="course_selection")
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT password FROM user_box where mail LIKE '{}%';".format(mail)
+    query = "SELECT id FROM user_box where mail LIKE '{}%';".format(mail)
     # 執行查詢
     cursor = conn.cursor()
     cursor.execute(query)
@@ -44,9 +44,9 @@ def check_newmail(mail):
 
 def insert_newaccount(username, pw, email, birthday, grade, Department, photo):
     conn = MySQLdb.connect(host="127.0.0.1",
-                           user="read_write_bot",
-                           passwd="writebot123",
-                           db="course_selection")
+                           user="userlogin_write",
+                           passwd="write123",
+                           db="user_login")
     
     cursor = conn.cursor()
     query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"

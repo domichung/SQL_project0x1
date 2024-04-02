@@ -38,6 +38,8 @@ def action_login():
 
     if results == 0:
         return redirect('/login/faild')
+    elif results == 1:
+        return redirect('/admin/do/u/want/to/build/the/snowman')
     else:
         return redirect(url_for('into_choose', username=username))
 
@@ -54,7 +56,11 @@ def action_login_faild():
     if go_login:
         return redirect('/login')
     elif go_menu:
-        return redirect('/')    
+        return redirect('/')
+    
+@app.route('/admin/do/u/want/to/build/the/snowman', methods=['GET'])  
+def into_admin():
+    return render_template('admin.html')
 
 # 註冊介面 
 @app.route('/register', methods=['GET'])  
