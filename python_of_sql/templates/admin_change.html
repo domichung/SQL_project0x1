@@ -46,15 +46,17 @@
 </head>
 <body>
   <div class="container">
-    <form method="post" action="/admin">
-      <h3> 歡迎回來 管理員 {{ username }} </h3>
-      <label for="change_user">選擇變動者：</label>
-      <select id="change_user" name="change_user">
-        <option>請選擇用戶</option>
-        {% for class_item in student_list %}
-            <option>{{ class_item }}</option>
-        {% endfor %}
-      </select>
+    <form method="post" action="/admin_change">
+      <h3> 管理員 {{ username }} 你正在修改學生資料 </h3><br>
+      你正在更改id: {{ userid }} 的資料<br>
+      <label for="username">帳號：</label><input id="username" value="{{ settinguser }}" name="username"><br>
+      <label for="password">密碼：</label><input id="password" value="{{ userpassword }}" name="password"><br>
+      <label for="email">郵件：</label><input id="email" value="{{ useremail }}" name="email"><br>
+      <label for="birthday">生日：</label><input id="birthday" value="{{ userbirth }}" name="birthday"><br>
+      <label for="grade">年級：</label><input id="grade" value="{{ usergrade }}" name="grade"><br>
+      <label for="department">系所：</label><input id="department" value="{{ userdepartment }}" name="department"><br>
+      <label for="moreclass">超修學分數：</label><input id="moreclass" value="{{ usermoreclass }}" name="moreclass"><br>
+      <label for="photo">照片：</label><input id="photo" value="{{ userphoto }}" name="photo"><br>
       <input type="submit" value="修改" name="set_people">
       <br/><br/><br/><br/><br/><br/><br/><br/>
       <input type="submit" value="登出" name="backtomenu">
