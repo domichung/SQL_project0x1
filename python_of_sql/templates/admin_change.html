@@ -22,11 +22,11 @@
         position: absolute;
         top: 0; 
         left: 0; 
-        border-radius: 10px; /* 圆角边框 */
+        border-radius: 10px; 
     }
 
     input[type="submit"] {
-        background-color: #add8e6; /* 淡蓝色背景 */
+        background-color: #add8e6; 
         border: none;
         color: white;
         padding: 15px 32px;
@@ -36,7 +36,7 @@
         font-size: 16px;
         margin: 4px 2px;
         cursor: pointer;
-        border-radius: 10px; /* 圆角按钮 */
+        border-radius: 10px; 
     }
 
     input[type="submit"]:hover {
@@ -57,6 +57,7 @@
       <label for="department">系所：</label><input id="department" value="{{ userdepartment }}" name="department"><br>
       <label for="moreclass">超修學分數：</label><input id="moreclass" value="{{ usermoreclass }}" name="moreclass"><br>
       <label for="photo">照片：</label><input id="photo" value="{{ userphoto }}" name="photo"><br>
+      <label for="first_login_check">初次登入戳記：</label><input id="photo" value="{{ first_check }}" name="first_login_check"><br>
       <input type="submit" value="修改" name="set_people">
       <br/><br/><br/><br/><br/><br/><br/><br/>
       <input type="submit" value="登出" name="backtomenu">

@@ -3,7 +3,7 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask, request, render_template, redirect ,url_for ,session
 import MySQLdb
-import domi_classlist ,domi_login ,domi_account ,domi_userlist ,domi_adminsys
+import domi_classlist ,domi_login ,domi_account ,domi_userlist ,domi_adminsys ,domi_newlogin
 
 
 app = Flask(__name__)
@@ -46,9 +46,10 @@ def rou_admin_setuser():
     usermoreclass = load_sys[0][7]
     userdepartment = load_sys[0][6]
     userphoto = load_sys[0][8]
+    first_check = load_sys[0][10]
     return render_template('admin_change.html', username = username , settinguser = settinguser ,userid = userid
                            ,userpassword = userpassword ,useremail = useremail ,usergrade = usergrade ,userbirth = userbirth 
-                           ,usermoreclass = usermoreclass ,userdepartment = userdepartment ,userphoto = userphoto)
+                           ,usermoreclass = usermoreclass ,userdepartment = userdepartment ,userphoto = userphoto ,first_check = first_check )
 
 @app.route('/choose/<username>', methods=['GET'])
 def rou_choose(username):
@@ -113,6 +114,7 @@ def script_admin_change():
     photo = request.form.get("user_photo")
     Department = request.form.get("department")
     moreclass = request.form.get("moreclass")
+    newusercheck = request.form.get("first_login_check")
 
     start_set_user = request.form.get("set_people")
     go_login = request.form.get("backtomenu")
@@ -120,7 +122,7 @@ def script_admin_change():
         return redirect('/')
     elif start_set_user:
         print(str(settinguserid)+"更改")
-        domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,photo ,Department ,moreclass)
+        domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,photo ,Department ,moreclass ,newusercheck)
         return redirect(url_for('rou_admin'))
 
 @app.route('/choose_main', methods=['POST'])
@@ -136,12 +138,19 @@ def script_login():
     pw = request.form.get("password")
 
     results = domi_login.check_login(username,pw)
+    idcallback = domi_account.find_id(username)
 
     if results == 0:
         return redirect('/loginfaild')
     elif results == 1:
         return redirect(url_for('rou_admin_choose', username=username))
     else:
+        if (results == 3):
+            print("尚未登入過開始建立課表\n")
+            domi_newlogin.newclasslist_main(idcallback)
+        elif (results == 2):
+            print("已經登入過囉歡迎回來\n")
+
         return redirect(url_for('rou_choose', username=username))
 
 @app.route('/login_faild', methods=['POST'])

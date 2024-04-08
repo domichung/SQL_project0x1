@@ -49,6 +49,57 @@ def insert_newaccount(username, pw, email, birthday, grade, Department, photo):
                            db="user_login")
     
     cursor = conn.cursor()
-    query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
-    cursor.execute(query, (username, pw, email, birthday, grade, Department, 0, photo))
+    query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo , user_class_count, newusercheck) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    cursor.execute(query, (username, pw, email, birthday, grade, Department, 0, photo, 0, 1))
     conn.commit()
+
+
+def set_newloginstatus(id):
+    try:
+        # 建立資料庫連線
+        conn = MySQLdb.connect(host="127.0.0.1",
+                               user="userlogin_reput",
+                               passwd="reput123",
+                               db="user_login")
+        
+        print("")
+
+        cursor = conn.cursor()
+        
+        sql = """UPDATE user_box SET 
+                 newusercheck = %s
+                 WHERE id = %s"""
+        
+        cursor.execute(sql, (0,id))
+         
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        return True
+        
+    except Exception as e:
+        print("Error:", e)
+        return False
+
+
+def find_id(name):
+    import MySQLdb
+    
+    # 建立讀取資料庫連線
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    query = "SELECT id FROM user_box where username LIKE '{}%';".format(name)
+    # 執行查詢
+    cursor = conn.cursor()
+    cursor.execute(query)
+    # 取得結果
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # 返回 id
+    else:
+        return None  # 如果沒有找到，返回 None
