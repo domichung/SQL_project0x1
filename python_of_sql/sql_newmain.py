@@ -3,13 +3,15 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask, request, render_template, redirect ,url_for ,session
 import MySQLdb
-import domi_classlist ,domi_login ,domi_account ,domi_userlist ,domi_adminsys ,domi_newlogin
+import  domi_registerlist ,domi_login ,domi_account ,domi_userlist ,domi_adminsys ,domi_newlogin
 
 
 app = Flask(__name__)
 app.secret_key = 'safe_key'  
 
 #以下路由
+#settinguser = 要被設定的用戶
+#username = 管理員名稱
 
 @app.route('/')
 def index():
@@ -34,22 +36,34 @@ def rou_setuser_choose(settinguser):
 @app.route('/admin/setuser', methods=['GET'])
 def rou_admin_setuser():
     
-    settinguser = session.get('settinguser', '不存在的值')
-
+    settinguser = session.get('settinguser', '請選擇用戶')
     username = session.get('username', '空白使用者')
-    load_sys = domi_adminsys.find_people_data(settinguser)
-    userid = load_sys[0][0]
-    userpassword = load_sys[0][2]
-    useremail = load_sys[0][3]
-    usergrade = load_sys[0][5]
-    userbirth = load_sys[0][4]
-    usermoreclass = load_sys[0][7]
-    userdepartment = load_sys[0][6]
-    userphoto = load_sys[0][8]
-    first_check = load_sys[0][10]
-    return render_template('admin_change.html', username = username , settinguser = settinguser ,userid = userid
-                           ,userpassword = userpassword ,useremail = useremail ,usergrade = usergrade ,userbirth = userbirth 
-                           ,usermoreclass = usermoreclass ,userdepartment = userdepartment ,userphoto = userphoto ,first_check = first_check )
+
+    if (settinguser == "請選擇用戶"):
+        print("empty input")
+        return redirect(url_for('rou_admin'))
+    else:
+        load_sys = domi_adminsys.find_people_data(settinguser)
+        userid = load_sys[0][0]
+        userpassword = load_sys[0][2]
+        useremail = load_sys[0][3]
+        usergrade = load_sys[0][5]
+        userbirth = load_sys[0][4]
+        usermoreclass = load_sys[0][7]
+        userdepartment = load_sys[0][6]
+        userphoto = load_sys[0][8]
+        first_check = load_sys[0][10]
+        ABCDclass = load_sys[0][11]
+
+        list_all_department = domi_registerlist.get_department_names()
+        list_all_class = domi_registerlist.get_class_names()
+        list_all_grade = domi_registerlist.get_grade_names()
+
+        return render_template('admin_change.html', username = username , settinguser = settinguser ,userid = userid
+                                ,userpassword = userpassword ,useremail = useremail ,usergrade = usergrade ,userbirth = userbirth 
+                                ,usermoreclass = usermoreclass ,userdepartment = userdepartment ,userphoto = userphoto ,first_check = first_check 
+                                ,ABCDclass = ABCDclass ,list_all_class = list_all_class ,list_all_department = list_all_department 
+                                ,list_all_grade = list_all_grade)
 
 @app.route('/choose/<username>', methods=['GET'])
 def rou_choose(username):
@@ -65,8 +79,10 @@ def rou_login_f():
 
 @app.route('/register', methods=['GET'])
 def rou_register():
-    list_all_class = domi_classlist.get_department_names()
-    return render_template('register.html', class_list = list_all_class )
+    list_all_department = domi_registerlist.get_department_names()
+    list_all_class = domi_registerlist.get_class_names()
+    list_all_grade = domi_registerlist.get_grade_names()
+    return render_template('register.html', class_list = list_all_class, department_list = list_all_department, grade_list = list_all_grade )
 
 @app.route('/registerfaild', methods=['GET'])
 def rou_register_f():
@@ -115,14 +131,15 @@ def script_admin_change():
     Department = request.form.get("department")
     moreclass = request.form.get("moreclass")
     newusercheck = request.form.get("first_login_check")
+    abcdclass = request.form.get("ABCD_CLASS")
 
     start_set_user = request.form.get("set_people")
     go_login = request.form.get("backtomenu")
     if go_login:
         return redirect('/')
     elif start_set_user:
-        print(str(settinguserid)+"更改")
-        domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,photo ,Department ,moreclass ,newusercheck)
+        print("更改用戶:"+str(settinguserid))
+        domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,photo ,Department ,moreclass ,newusercheck ,abcdclass)
         return redirect(url_for('rou_admin'))
 
 @app.route('/choose_main', methods=['POST'])
@@ -173,11 +190,12 @@ def script_register():
     grade = request.form.get("grade")
     photo = request.form.get("user_photo")
     Department = request.form.get("Department")
+    myABCD_class = request.form.get("ABCD_class")
 
-    reason = domi_account.check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Department ,photo)
+    reason = domi_account.check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Department ,photo ,myABCD_class)
 
     if (reason == 1):
-        domi_account.insert_newaccount(username, pw, email, birthday, grade, Department, photo)
+        domi_account.insert_newaccount(username, pw, email, birthday, grade, Department, photo, myABCD_class)
         return redirect('/registersuccess')
     else:
         return render_template('register_faild.html', reason=reason)

@@ -48,16 +48,48 @@
   <div class="container">
     <form method="post" action="/admin_change">
       <h3> 管理員 {{ username }} 你正在修改學生資料 </h3><br>
-      你正在更改id: {{ userid }} 的資料<br>
+      你正在更改id： {{ userid }} 的資料 <br/>
       <label for="username">帳號：</label><input id="username" value="{{ settinguser }}" name="username"><br>
       <label for="password">密碼：</label><input id="password" value="{{ userpassword }}" name="password"><br>
       <label for="email">郵件：</label><input id="email" value="{{ useremail }}" name="email"><br>
-      <label for="birthday">生日：</label><input id="birthday" value="{{ userbirth }}" name="birthday"><br>
-      <label for="grade">年級：</label><input id="grade" value="{{ usergrade }}" name="grade"><br>
-      <label for="department">系所：</label><input id="department" value="{{ userdepartment }}" name="department"><br>
+      <label for="birthday">生日：</label><input type="date" id="birthday" name="birthday" value="{{ userbirth }}" min="1824-01-01" max="2024-4-20"><br>
+      系所：
+      <select id="department" name="department">
+        <option>請選擇你的系所</option>
+        {% for department_item in list_all_department %}
+            {% if department_item == userdepartment %}
+                <option value="{{ department_item }}" selected>{{ department_item }}</option>
+            {% else %}
+                <option value="{{ department_item }}">{{ department_item }}</option>
+            {% endif %}
+        {% endfor %}
+      </select>
+      <br/>年級：
+      <select id="grade" name="grade">
+        <option>請選擇你的系所</option>
+        {% for grade_item in list_all_grade %}
+            {% if grade_item == usergrade %}
+                <option value="{{ grade_item }}" selected>{{ grade_item }}</option>
+            {% else %}
+                <option value="{{ grade_item }}">{{ grade_item }}</option>
+            {% endif %}
+        {% endfor %}
+      </select>
+      <br/>班級：
+      <select id="ABCD_CLASS" name="ABCD_CLASS">
+        <option>請選擇你的系所</option>
+        {% for class_item in list_all_class %}
+            {% if class_item == ABCDclass %}
+                <option value="{{ class_item }}" selected>{{ class_item }}</option>
+            {% else %}
+                <option value="{{ class_item }}">{{ class_item }}</option>
+            {% endif %}
+        {% endfor %}
+      </select>
+      <br/>
       <label for="moreclass">超修學分數：</label><input id="moreclass" value="{{ usermoreclass }}" name="moreclass"><br>
       <label for="photo">照片：</label><input id="photo" value="{{ userphoto }}" name="photo"><br>
-      <label for="first_login_check">初次登入戳記：</label><input id="photo" value="{{ first_check }}" name="first_login_check"><br>
+      <label for="first_login_check">初次登入戳記：</label><input id="first_login_check" value="{{ first_check }}" name="first_login_check"><br>
       <input type="submit" value="修改" name="set_people">
       <br/><br/><br/><br/><br/><br/><br/><br/>
       <input type="submit" value="登出" name="backtomenu">

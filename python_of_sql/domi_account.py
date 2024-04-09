@@ -1,7 +1,7 @@
 import MySQLdb
 
-def check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Department ,photo):
-    if not (username and pw and repw and email and birthday and grade != "請選擇你的年級" and Department != "請選擇你的系所"):
+def check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Department ,photo ,myABCD_class):
+    if not (username and pw and repw and email and birthday and grade != "請選擇你的年級" and Department != "請選擇你的系所" and myABCD_class != "請選擇你的班級"):
         return "有欄位未填寫"
     elif check_newaccount(username):
         return "已存在的用戶"
@@ -42,15 +42,15 @@ def check_newmail(mail):
     return cursor.fetchone()
 
 
-def insert_newaccount(username, pw, email, birthday, grade, Department, photo):
+def insert_newaccount(username, pw, email, birthday, grade, Department, photo ,myABCD_class):
     conn = MySQLdb.connect(host="127.0.0.1",
                            user="userlogin_write",
                            passwd="write123",
                            db="user_login")
     
     cursor = conn.cursor()
-    query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo , user_class_count, newusercheck) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
-    cursor.execute(query, (username, pw, email, birthday, grade, Department, 0, photo, 0, 1))
+    query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo , user_class_count, newusercheck, ABCDclass) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    cursor.execute(query, (username, pw, email, birthday, grade, Department, 0, photo, 0, 1, myABCD_class))
     conn.commit()
 
 
