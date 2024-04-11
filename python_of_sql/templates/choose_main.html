@@ -5,20 +5,107 @@
   <title>選課區域</title>
   <style>
     body {
-        background-image: url('/static/background_07.jpg');
+        background-image: url('/static/background_09.jpg');
         background-size: 100vw 100vh; 
         background-repeat: no-repeat;
         margin: 0; 
     }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .schedule-container {
+        width: 50%; /* 調整表格容器的寬度 */
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .sidebar {
+        width: 25%;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 20px;
+    }
+    table {
+        width: 100%;
+        background-color: white;
+        border-radius: 20px;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
   </style>
 </head>
 <body>
-  <div style="width: 500px;">
-    <form method="post" action="/choose_main" >
-      <h3> 歡迎回來 {{ username }} </h3>
-      <br/>
-      <input type="submit" value="回到登入介面" name="backtomenu">
-    </form>
+  <div class="container">
+    <div class="schedule-container">
+      <form method="post" action="/choose_main" >
+        <table id="scheduleTable">
+          <tr>
+            <th>節數/星期</th>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+            <th>星期六</th>
+            <th>星期日</th>
+          </tr>
+          <!-- Rows from N to 15 will be added dynamically using JavaScript -->
+        </table>
+      </form>
+    </div>
+    <div class="sidebar">
+      <!-- Sidebar content: buttons and other functionalities -->
+      歡迎用戶 {{studentid}} <br/>
+      你目前已選取 %class_count% 學分<br/>
+      <button>測試按鈕 1</button>
+      <button>測試按鈕 2</button>
+      <!-- Add more buttons or functionalities here -->
+    </div>
   </div>
+  <script>
+    // JavaScript to add rows dynamically from N to 15 with blank cells
+    document.addEventListener("DOMContentLoaded", function() {
+  var table = document.getElementById("scheduleTable");
+  var numberOfRows = 14; // Total number of rows
+  var startingRow = 1; // Starting row number
+  var numberOfDays = 7; // Total number of days
+  var timeSlots = [
+    "08:10 ~ 09:00",
+    "09:10 ~ 10:00",
+    "10:10 ~ 11:00",
+    "11:10 ~ 12:00",
+    "12:10 ~ 13:00",
+    "13:10 ~ 14:00",
+    "14:10 ~ 15:00",
+    "15:10 ~ 16:00",
+    "16:10 ~ 17:00",
+    "17:10 ~ 18:00",
+    "18:30 ~ 19:20",
+    "19:25 ~ 20:15",
+    "20:25 ~ 21:15",
+    "21:20 ~ 22:10"
+  ];
+
+  for (var i = startingRow; i <= numberOfRows; i++) {
+    var row = table.insertRow();
+    var cell1 = row.insertCell(0);
+    cell1.innerHTML = "第 " + i + " 節<br/>" + timeSlots[i-1]; 
+    for (var j = 1; j <= numberOfDays; j++) {
+      var cell = row.insertCell(j);
+      var cellContent = "";
+      if ( j <= 14) {
+        cellContent = "%" + j + "_" + i + "%"; 
+      }
+      cell.innerHTML = cellContent;
+    }
+  }
+});
+  </script>
 </body>
 </html>

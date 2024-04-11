@@ -85,7 +85,6 @@ def set_newloginstatus(id):
 
 
 def find_id(name):
-    import MySQLdb
     
     # 建立讀取資料庫連線
     conn = MySQLdb.connect(host="127.0.0.1",
@@ -103,3 +102,71 @@ def find_id(name):
         return result[0]  # 返回 id
     else:
         return None  # 如果沒有找到，返回 None
+
+def find_grade_id(grade):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 執行查詢
+
+    cursor = conn.cursor()
+
+    sql = "SELECT * FROM grade_list WHERE grade = '" + grade + "'"
+
+    cursor.execute(sql)
+    conn.commit()
+    result = cursor.fetchall()
+    
+    if (result):
+        return result[0][0]
+    else:
+        return 'faild'
+
+    
+#print(find_grade_id("大二"))
+
+def find_department_id(department):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 執行查詢
+
+    cursor = conn.cursor()
+
+    sql = "SELECT * FROM department WHERE department_name = '" + department + "'"
+
+    cursor.execute(sql)
+    conn.commit()
+    result = cursor.fetchall()
+    
+    if (result):
+        return result[0][0]
+    else:
+        return 'faild'
+
+
+def find_classABCDname_id(classABCDname):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 執行查詢
+
+    cursor = conn.cursor()
+
+    sql = "SELECT class_id FROM class_list WHERE classname = '" + classABCDname + "'"
+
+    cursor.execute(sql)
+    conn.commit()
+    result = cursor.fetchall()
+
+    if (result):
+        return result[0][0]
+    else:
+        return 'faild'
+
+
+#print(find_classABCDname_id('丁班'))
+#print(find_department_id('電子工程學系'))

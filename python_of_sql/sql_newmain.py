@@ -17,27 +17,26 @@ app.secret_key = 'safe_key'
 def index():
     return render_template('menu.html')
 
-@app.route('/admin_choose/<username>', methods=['GET'])
-def rou_admin_choose(username):
-    session['username'] = username  
+@app.route('/admin_choose/<login_admin>', methods=['GET'])
+def rou_admin_choose(login_admin):
+    session['adm_name'] = login_admin  
     return redirect(url_for('rou_admin'))
 
 @app.route('/admin', methods=['GET'])
 def rou_admin():
-    username = session.get('username', '空白使用者')
     list_all_student = domi_userlist.get_students_names()
-    return render_template('admin.html', username = username , student_list = list_all_student )
+    return render_template('admin.html', adm = session.get('adm_name', '空白使用者') , student_list = list_all_student )
 
 @app.route('/admin/setuser/<settinguser>', methods=['GET'])
 def rou_setuser_choose(settinguser):
-    session['settinguser'] = settinguser  
+    session['besettinguser'] = settinguser  
     return redirect(url_for('rou_admin_setuser'))
 
 @app.route('/admin/setuser', methods=['GET'])
 def rou_admin_setuser():
     
-    settinguser = session.get('settinguser', '請選擇用戶')
-    username = session.get('username', '空白使用者')
+    settinguser = session.get('besettinguser', '請選擇用戶')
+    admname = session.get('adm_name', '空白使用者')
 
     if (settinguser == "請選擇用戶"):
         print("empty input")
@@ -59,15 +58,11 @@ def rou_admin_setuser():
         list_all_class = domi_registerlist.get_class_names()
         list_all_grade = domi_registerlist.get_grade_names()
 
-        return render_template('admin_change.html', username = username , settinguser = settinguser ,userid = userid
+        return render_template('admin_change.html', admname = admname , settinguser = settinguser ,userid = userid
                                 ,userpassword = userpassword ,useremail = useremail ,usergrade = usergrade ,userbirth = userbirth 
                                 ,usermoreclass = usermoreclass ,userdepartment = userdepartment ,userphoto = userphoto ,first_check = first_check 
                                 ,ABCDclass = ABCDclass ,list_all_class = list_all_class ,list_all_department = list_all_department 
                                 ,list_all_grade = list_all_grade)
-
-@app.route('/choose/<username>', methods=['GET'])
-def rou_choose(username):
-    return render_template('choose_main.html', username=username)
 
 @app.route('/login', methods=['GET'])
 def rou_login():
@@ -91,6 +86,19 @@ def rou_register_f():
 @app.route('/registersuccess', methods=['GET'])
 def rou_register_s():
     return render_template('register_successful.html')
+
+#================================選課路由
+#=============幹你娘寫一半===============
+
+@app.route('/choose/<choose_user_id>', methods=['GET'])
+def rou_choose_setuser(choose_user_id):
+    session['choose_user'] = choose_user_id
+    return redirect(url_for('rou_choose_mainpage'))
+
+@app.route('/choose/main', methods=['GET'])
+def rou_choose_mainpage():
+    studentid = session.get('choose_user', 'NULLID')
+    return render_template('choose_main.html', studentid = studentid)
 
 #=========================以下腳本
 
@@ -119,7 +127,7 @@ def script_admin():
 @app.route('/admin_change', methods=['POST'])
 def script_admin_change():
     
-    settinguser = session.get('settinguser', '不存在的值')
+    settinguser = session.get('besettinguser', '不存在的值')
     settinguserid = domi_adminsys.find_people_data(settinguser)[0][0]
 
     username = request.form.get("username")
@@ -160,7 +168,7 @@ def script_login():
     if results == 0:
         return redirect('/loginfaild')
     elif results == 1:
-        return redirect(url_for('rou_admin_choose', username=username))
+        return redirect(url_for('rou_admin_choose', login_admin = username))
     else:
         if (results == 3):
             print("尚未登入過開始建立課表\n")
@@ -168,7 +176,7 @@ def script_login():
         elif (results == 2):
             print("已經登入過囉歡迎回來\n")
 
-        return redirect(url_for('rou_choose', username=username))
+        return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
 
 @app.route('/login_faild', methods=['POST'])
 def script_login_f():
