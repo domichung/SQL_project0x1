@@ -3,15 +3,17 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask, request, render_template, redirect ,url_for ,session
 import MySQLdb
-import  domi_registerlist ,domi_login ,domi_account ,domi_userlist ,domi_adminsys ,domi_newlogin
+import  domi_registerlist ,domi_login ,domi_account 
+import  domi_userlist ,domi_adminsys ,domi_newlogin
+import  domi_listmyclass,domi_replacearr
 
 
 app = Flask(__name__)
 app.secret_key = 'safe_key'  
 
-#以下路由
-#settinguser = 要被設定的用戶
-#username = 管理員名稱
+#以下路由 已完成更正
+#~X~settinguser = 要被設定的用戶
+#~X~username = 管理員名稱  
 
 @app.route('/')
 def index():
@@ -42,27 +44,25 @@ def rou_admin_setuser():
         print("empty input")
         return redirect(url_for('rou_admin'))
     else:
+
         load_sys = domi_adminsys.find_people_data(settinguser)
-        userid = load_sys[0][0]
-        userpassword = load_sys[0][2]
-        useremail = load_sys[0][3]
-        usergrade = load_sys[0][5]
-        userbirth = load_sys[0][4]
-        usermoreclass = load_sys[0][7]
-        userdepartment = load_sys[0][6]
-        userphoto = load_sys[0][8]
-        first_check = load_sys[0][10]
-        ABCDclass = load_sys[0][11]
 
-        list_all_department = domi_registerlist.get_department_names()
-        list_all_class = domi_registerlist.get_class_names()
-        list_all_grade = domi_registerlist.get_grade_names()
-
-        return render_template('admin_change.html', admname = admname , settinguser = settinguser ,userid = userid
-                                ,userpassword = userpassword ,useremail = useremail ,usergrade = usergrade ,userbirth = userbirth 
-                                ,usermoreclass = usermoreclass ,userdepartment = userdepartment ,userphoto = userphoto ,first_check = first_check 
-                                ,ABCDclass = ABCDclass ,list_all_class = list_all_class ,list_all_department = list_all_department 
-                                ,list_all_grade = list_all_grade)
+        return render_template('admin_change.html', 
+                                admname = admname , 
+                                settinguser = settinguser ,
+                                userid = load_sys[0][0],
+                                userpassword = load_sys[0][2],
+                                useremail = load_sys[0][3],
+                                usergrade = load_sys[0][5],
+                                userbirth = load_sys[0][4], 
+                                usermoreclass = load_sys[0][7],
+                                userdepartment = load_sys[0][6],
+                                userphoto = load_sys[0][8],
+                                first_check = load_sys[0][10], 
+                                ABCDclass = load_sys[0][11],
+                                list_all_class = domi_registerlist.get_class_names(),
+                                list_all_department = domi_registerlist.get_department_names(), 
+                                list_all_grade = domi_registerlist.get_grade_names())
 
 @app.route('/login', methods=['GET'])
 def rou_login():
@@ -98,7 +98,34 @@ def rou_choose_setuser(choose_user_id):
 @app.route('/choose/main', methods=['GET'])
 def rou_choose_mainpage():
     studentid = session.get('choose_user', 'NULLID')
-    return render_template('choose_main.html', studentid = studentid)
+    classlist = domi_replacearr.replace(domi_listmyclass.get_students_classlist(studentid))
+    studentname = domi_account.find_name_id(studentid)
+    studentbonusclass = domi_account.find_moreclass_byid(studentid)
+    nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
+
+    timeSlots = [
+    "08:10 ~ 09:00",
+    "09:10 ~ 10:00",
+    "10:10 ~ 11:00",
+    "11:10 ~ 12:00",
+    "12:10 ~ 13:00",
+    "13:10 ~ 14:00",
+    "14:10 ~ 15:00",
+    "15:10 ~ 16:00",
+    "16:10 ~ 17:00",
+    "17:10 ~ 18:00",
+    "18:30 ~ 19:20",
+    "19:25 ~ 20:15",
+    "20:25 ~ 21:15",
+    "21:20 ~ 22:10"
+    ]
+
+    counter = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+
+    return render_template('choose_main.html', studentname = studentname, classlist=classlist 
+                                             , timeSlots = timeSlots ,counter = counter 
+                                             , studentbonusclass = studentbonusclass 
+                                             , nowchoosepoin = nowchoosepoin)
 
 #=========================以下腳本
 

@@ -1,5 +1,5 @@
 CREATE TABLE `username_classlist` (
-    TODAY   INT(50),
+    TODAY   INT(50) PRIMARY KEY,
     class1 VARCHAR(255),
     class2 VARCHAR(255),
     class3 VARCHAR(255),

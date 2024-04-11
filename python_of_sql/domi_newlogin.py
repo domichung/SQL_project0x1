@@ -42,13 +42,12 @@ def insert_newaccount(id):
     conn.commit()
     conn.close()
 
-
-
 def newclasslist_main(id):
     try:
         insert_newaccount(id)
         domi_account.set_newloginstatus(id)
         print('帳號創建成功')
+        print('載入課表'+LDDclass(id))
     except:
         domi_account.set_newloginstatus(id)
         print('已存在帳號 註冊失敗')
@@ -79,32 +78,14 @@ def LD_dclasslist(class_name):
 
 def LDDclass(id):
     # 建立讀取資料庫連線
-    conn = MySQLdb.connect(host="127.0.0.1",
-                           user="userlogin_read",
-                           passwd="read123",
-                           db="user_login")
-    # 欲查詢的 query 指令
-    cursor = conn.cursor()
-
-    sql = """SELECT * FROM user_box WHERE id = %s"""
-    # 執行查詢
-    cursor.execute(sql,(str(id)))
-    conn.commit()
-    people_data = cursor.fetchall()
-    print(people_data)
-    #print(domi_account.find_grade_id(people_data[0][5]))
-    #print(domi_account.find_classABCDname_id(people_data[0][11]))
-    #print(domi_account.find_department_id(people_data[0][6]))
-    #defaultclass_1_1_2
-    search_class = ('defaultclass_' + 
-                    str(domi_account.find_department_id(people_data[0][6])) + "_" +
-                    str(domi_account.find_grade_id(people_data[0][5]))      + "_" +
-                    str(domi_account.find_classABCDname_id(people_data[0][11])))
     
-    #print(search_class)
+    search_class = domi_account.find_user_classlist_name(id)
+
+    print(search_class+"\n")
     #print(LD_dclasslist(search_class))
     inlist = LD_dclasslist(search_class)
     #print(len(LD_dclasslist(search_class)))
+    
     if (inlist == 'faild'):
         print('load class faild')
         return 'faild'

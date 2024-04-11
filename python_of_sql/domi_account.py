@@ -1,4 +1,4 @@
-import MySQLdb
+import MySQLdb , domi_listmyclass 
 
 def check_createsuccessful(username ,pw ,repw ,email ,birthday ,grade ,Department ,photo ,myABCD_class):
     if not (username and pw and repw and email and birthday and grade != "請選擇你的年級" and Department != "請選擇你的系所" and myABCD_class != "請選擇你的班級"):
@@ -170,3 +170,92 @@ def find_classABCDname_id(classABCDname):
 
 #print(find_classABCDname_id('丁班'))
 #print(find_department_id('電子工程學系'))
+
+
+def find_user_classlist_name(id):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    cursor = conn.cursor()
+
+    sql = """SELECT * FROM user_box WHERE id = %s"""
+    # 執行查詢
+    cursor.execute(sql,(str(id)))
+    conn.commit()
+    people_data = cursor.fetchall()
+    #print(people_data)
+    #print(domi_account.find_grade_id(people_data[0][5]))
+    #print(domi_account.find_classABCDname_id(people_data[0][11]))
+    #print(domi_account.find_department_id(people_data[0][6]))
+    #defaultclass_1_1_2
+    search_class = ('defaultclass_' + 
+                    str(find_department_id(people_data[0][6])) + "_" +
+                    str(find_grade_id(people_data[0][5]))      + "_" +
+                    str(find_classABCDname_id(people_data[0][11])))
+    
+    return search_class
+
+#print(find_user_classlist_name(2))
+
+def find_name_id(id):
+    
+    # 建立讀取資料庫連線
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    query = "SELECT username FROM user_box where id LIKE '{}%';".format(id)
+    # 執行查詢
+    cursor = conn.cursor()
+    cursor.execute(query)
+    # 取得結果
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # 返回 
+    else:
+        return None  # 如果沒有找到，返回 None
+    
+#print(find_name_id(2))
+
+def find_moreclass_byid(id):
+    
+    # 建立讀取資料庫連線
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    query = "SELECT moreclass FROM user_box where id LIKE '{}%';".format(id)
+    # 執行查詢
+    cursor = conn.cursor()
+    cursor.execute(query)
+    # 取得結果
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # 返回
+    else:
+        return None  # 如果沒有找到，返回 None
+    
+def find_userclasscount_byid(id):
+    
+    # 建立讀取資料庫連線
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    query = "SELECT user_class_count FROM user_box where id LIKE '{}%';".format(id)
+    # 執行查詢
+    cursor = conn.cursor()
+    cursor.execute(query)
+    # 取得結果
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # 返回
+    else:
+        return None  # 如果沒有找到，返回 None
+    
+#print(find_userclasscount_byid(2))

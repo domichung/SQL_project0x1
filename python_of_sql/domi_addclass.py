@@ -14,9 +14,11 @@ def add_userclass(userid,courseid):
         _classinfo = domi_classinfo.find_class_info(courseid)
         _time_str_cut = domi_timmercut.dm_time_cut(_classinfo[0][6])
         print(_checkself_class_empty)
+        print(_classinfo[0][4])
         
         if (_checkself_class_empty == 'success'):
             _insert_into_classlist(_classinfo[0][0],_time_str_cut,user_dbname)
+            adduserclasspoint(userid,_classinfo[0][4])
             return 'success'
         else:
             return 'faild'
@@ -63,3 +65,25 @@ def _insert_into_classlist(classname ,time ,userdbname):
 
 #add_userclass('lulu',"IECS0002")
 
+def adduserclasspoint(id,num):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                               user="userlogin_reput",
+                               passwd="reput123",
+                               db="user_login")
+        
+    #print("changeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+
+    cursor = conn.cursor()
+        
+    sql = """UPDATE user_box SET 
+             user_class_count = %s + user_class_count
+             WHERE id = %s"""
+        
+    cursor.execute(sql, (num,id))
+         
+    conn.commit()
+        
+    cursor.close()
+    conn.close()
+        
+#adduserclasspoint(3,10)
