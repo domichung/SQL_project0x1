@@ -2,18 +2,13 @@
 # coding=utf-8
 # -*- coding: UTF-8 -*-
 from flask import Flask, request, render_template, redirect ,url_for ,session
-import MySQLdb
 import  domi_registerlist ,domi_login ,domi_account 
 import  domi_userlist ,domi_adminsys ,domi_newlogin
 import  domi_listmyclass,domi_replacearr
 
 
 app = Flask(__name__)
-app.secret_key = 'safe_key'  
-
-#以下路由 已完成更正
-#~X~settinguser = 要被設定的用戶
-#~X~username = 管理員名稱  
+app.secret_key = 'safe_key'
 
 @app.route('/')
 def index():
@@ -102,6 +97,7 @@ def rou_choose_mainpage():
     studentname = domi_account.find_name_id(studentid)
     studentbonusclass = domi_account.find_moreclass_byid(studentid)
     nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
+    department_list = domi_registerlist.get_class_names()
 
     timeSlots = [
     "08:10 ~ 09:00",
@@ -125,7 +121,7 @@ def rou_choose_mainpage():
     return render_template('choose_main.html', studentname = studentname, classlist=classlist 
                                              , timeSlots = timeSlots ,counter = counter 
                                              , studentbonusclass = studentbonusclass 
-                                             , nowchoosepoin = nowchoosepoin)
+                                             , nowchoosepoin = nowchoosepoin, department_list = department_list)
 
 #=========================以下腳本
 
@@ -179,9 +175,16 @@ def script_admin_change():
 
 @app.route('/choose_main', methods=['POST'])
 def script_choose():
-    go_login = request.form.get("backtomenu")
-    if go_login:
-        return redirect('/')
+    next = request.form.get("test")
+    if next:
+        return render_template('choose_faild.html',reason = "幹你娘給我亂選課")
+
+@app.route('/choose_faild', methods=['POST'])
+def script_choose_faild():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
 
 @app.route('/login', methods=['POST'])
 def script_login():

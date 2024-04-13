@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>選課區域</title>
+  <style>
+    body {
+        background-image: url('/static/background_09.jpg');
+        background-size: 100vw 100vh; 
+        background-repeat: no-repeat;
+        margin: 0; 
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .schedule-container {
+        width: 50%; /* 調整表格容器的寬度 */
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .sidebar {
+        width: 25%;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 20px;
+    }
+    table {
+        width: 100%;
+        background-color: white;
+        border-radius: 20px;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="schedule-container">
+      <table id="scheduleTable">
+        <tr>
+          <th></th>
+          <th>星期一</th>
+          <th>星期二</th>
+          <th>星期三</th>
+          <th>星期四</th>
+          <th>星期五</th>
+          <th>星期六</th>
+          <th>星期日</th>
+        </tr>
+        {% for icount in counter %}
+        <tr>
+          <th>{{ timeSlots[icount] }}</th>
+          <th>{{ classlist[0][icount+1] }}</th>
+          <th>{{ classlist[1][icount+1] }}</th>
+          <th>{{ classlist[2][icount+1] }}</th>
+          <th>{{ classlist[3][icount+1] }}</th>
+          <th>{{ classlist[4][icount+1] }}</th>
+          <th>{{ classlist[5][icount+1] }}</th>
+          <th>{{ classlist[6][icount+1] }}</th>
+        </tr>
+        {% endfor %}
+          
+        <!-- Rows from N to 15 will be added dynamically using JavaScript -->
+      </table>
+    </div>
+    <div class="sidebar">
+      <form method="post" action="/choose_main" >
+        <!-- Sidebar content: buttons and other functionalities -->
+        歡迎用戶 {{studentname}} <br/>
+        你目前已選取 {{nowchoosepoin}} / {{studentbonusclass+25}} 學分
+        <br/><br/><br/><br/>
+        <label for="Department">選課列表：</label>
+        <select id="Department" name="Department">
+          <option>請選擇你要加選的課程</option>
+          {% for chooseclass_item in department_list %}
+              <option>{{ chooseclass_item }}</option>
+          {% endfor %}
+        </select>
+
+        <input type="submit" value="按鈕" name="test">
+        <!-- Add more buttons or functionalities here -->
+      </form>
+      </div>
+  </div>
+</body>
+</html>
