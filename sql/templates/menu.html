@@ -6,14 +6,40 @@
   <style>
     body {
         background-image: url('/static/background_01.jpg');
-        background-size: 100vw 100vh; 
+        background-size: cover; 
         background-repeat: no-repeat;
         margin: 0; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .login-menu {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .login-menu input[type="submit"] {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        outline: none; /* Remove default focus outline */
+    }
+    .login-menu input[type="submit"]:hover {
+        background-color: #45a049;
     }
   </style>
 </head>
 <body>
-  <div style="width: 117px;">
+  <div class="login-menu">
+    <h2>選課系統!!!!</h2>
     <form method="post" action="/menu" >
       <input type="submit" value="已擁有帳號" name="login">
       <br>

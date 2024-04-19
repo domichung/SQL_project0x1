@@ -183,12 +183,19 @@ def script_choose():
     if next:
         reason = domi_addclass.add_userclass(studentid,willaddclass)
         if (reason == "success"):
-            return render_template('choose_faild.html',reason = "加選成功")
+            return render_template('choose_success.html',name= willaddclass)
         else:
             return render_template('choose_faild.html',reason = reason)
 
 @app.route('/choose_faild', methods=['POST'])
 def script_choose_faild():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
+
+@app.route('/choose_success', methods=['POST'])
+def script_choose_success():
     back = request.form.get("backtochoose")
     idcallback = session.get('choose_user', 'NULLID')
     if back:

@@ -2,7 +2,6 @@ import MySQLdb
 import domi_classinfo , domi_checkclasssys ,domi_timmercut , domi_loadcanichoose 
 import domi_account
 
-#print(domi_classinfo.find_class_info("IECS0003"))
 
 def add_userclass(userid,courseid):
     user_dbname = str(userid) + '_classlist'
@@ -30,7 +29,8 @@ def add_userclass(userid,courseid):
             return "滿人囉 可以考慮前往預選"
 
         if (_userinfo_canchosemoredepartment == 0):
-            if (domi_account.comp_userdepartment_departmentid(userid,_classinfo[0][2]) != "True"):
+            print(str(userid)+ " "+ str(_classinfo[0][2]))
+            if (domi_account.comp_userdepartment_departmentid(int(userid),int(_classinfo[0][2])) != "success" ):
                 return "你尚未獲得外系選修資格"
 
         _time_str_cut = domi_timmercut.dm_time_cut(_classinfo[0][6])
@@ -128,3 +128,5 @@ def addstudentnuminclass(class_id):
 
 
 #addstudentnuminclass('IECS0666')
+
+#print(add_userclass(3,"IECS0003"))

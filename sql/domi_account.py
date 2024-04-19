@@ -328,6 +328,10 @@ def find_userdepartment_byid(id):
 def comp_userdepartment_departmentid(userid,departmentid):
     a = find_departmentname_byid(departmentid)
     b =  find_userdepartment_byid(userid)
-    return (a == b)
+    #print( a == b)
+    if (a==b):
+        return "success"
+    else:
+        return 0
 
-#print(comp_userdepartment_departmentid(2,3))
+#print(comp_userdepartment_departmentid(3,1))

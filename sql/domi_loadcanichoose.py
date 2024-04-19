@@ -67,7 +67,7 @@ def simplify_courses(data):
     
     sorted_data = sorted(data, key=lambda x: len(x[0]))
 
-    return [f'{course[0]} {course[1]} 學分: {course[2]} 上課時間: {"".join([f"({chinese_numbers[course[6][i]]}{hex_to_dec.get(course[6][i+1], course[6][i+1])})" for i in range(0, len(course[6]), 2)])}' for course in sorted_data]
+    return [f'{course[0]} {course[1]} 學分: {course[4]} 上課時間: {"".join([f"({chinese_numbers[course[6][i]]}{hex_to_dec.get(course[6][i+1], course[6][i+1])})" for i in range(0, len(course[6]), 2)])}' for course in sorted_data]
 
 # // 課程說明: {course[5]} //
 #print('\n'.join(simplify_courses(givemeallcalss())))
