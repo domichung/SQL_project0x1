@@ -1,5 +1,8 @@
 import MySQLdb 
-import domi_classinfo , domi_checkclasssys ,domi_timmercut
+import domi_classinfo , domi_checkclasssys ,domi_timmercut , domi_loadcanichoose 
+import domi_account
+
+#print(domi_classinfo.find_class_info("IECS0003"))
 
 def add_userclass(userid,courseid):
     user_dbname = str(userid) + '_classlist'
@@ -8,21 +11,37 @@ def add_userclass(userid,courseid):
         # 建立資料庫連線
         
         _classinfo = domi_classinfo.find_class_info(courseid)
+        _userinfo_canchosemoredepartment = domi_account.find_canmoredepartment_byid(userid)
 
-        _checkself_class_empty = domi_checkclasssys.check_class_empty(userid , _classinfo[0][6] )
+        if (domi_loadcanichoose.comclasschose(_classinfo[0][0],userid) == "faild"):
+            return "你已選擇此課程"
 
-        _classinfo = domi_classinfo.find_class_info(courseid)
-        _time_str_cut = domi_timmercut.dm_time_cut(_classinfo[0][6])
-        print(_checkself_class_empty)
-        print(_classinfo[0][4])
+
+        if (domi_checkclasssys.check_class_empty(userid , _classinfo[0][6] ) == "faild"):
+            return "你這節課已經有選課囉"
         
-        if (_checkself_class_empty == 'success'):
+        #學分數上限
+        if (domi_checkclasssys.check_classpint_inrange(userid , _classinfo[0][4]) == "faild"):
+            #print(str(_classinfo[0][4]) + "<===學分數")
+            return "你已抵達學分上限 整個深淵都為你撼動"
+        
+        #選課人數超過上限
+        if (_classinfo[0][8]+1>_classinfo[0][7]):
+            return "滿人囉 可以考慮前往預選"
+
+        if (_userinfo_canchosemoredepartment == 0):
+            if (domi_account.comp_userdepartment_departmentid(userid,_classinfo[0][2]) != "True"):
+                return "你尚未獲得外系選修資格"
+
+        _time_str_cut = domi_timmercut.dm_time_cut(_classinfo[0][6])
+
+        #print(_classinfo[0][4])
+        
+        if (1):
             _insert_into_classlist(_classinfo[0][0],_time_str_cut,user_dbname)
             adduserclasspoint(userid,_classinfo[0][4])
+            addstudentnuminclass(_classinfo[0][0])
             return 'success'
-        else:
-            return 'faild'
-
         
     else:
         return 'a'
@@ -87,3 +106,25 @@ def adduserclasspoint(id,num):
     conn.close()
         
 #adduserclasspoint(3,10)
+
+def addstudentnuminclass(class_id):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                               user="classinfo_change",
+                               passwd="change123",
+                               db="class_info")
+
+    cursor = conn.cursor()
+        
+    sql = """UPDATE course SET 
+             nowstudent = nowstudent + 1
+             WHERE course_id = %s """
+        
+    cursor.execute(sql, (class_id,))
+         
+    conn.commit()
+        
+    cursor.close()
+    conn.close()
+
+
+#addstudentnuminclass('IECS0666')

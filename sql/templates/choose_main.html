@@ -76,10 +76,10 @@
         歡迎用戶 {{studentname}} <br/>
         你目前已選取 {{nowchoosepoin}} / {{studentbonusclass+25}} 學分
         <br/><br/><br/><br/>
-        <label for="Department">選課列表：</label>
-        <select id="Department" name="Department">
+        <label for="chooselist">選課列表：</label>
+        <select id="chooselist" name="chooselist">
           <option>請選擇你要加選的課程</option>
-          {% for chooseclass_item in department_list %}
+          {% for chooseclass_item in class_ineed %}
               <option>{{ chooseclass_item }}</option>
           {% endfor %}
         </select>

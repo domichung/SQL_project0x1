@@ -43,9 +43,32 @@ def givemeclasssclearalreadychoose(userid):
     return change  # 返回去重后的列表
 
 
+def comclasschose(checkclass,userid):
+    ld = givemeclasssclearalreadychoose(int(userid))
+    flag = 1
+    for i in range(1,len(ld)):
+        if (checkclass == ld[i]):
+            flag = 0
+        
+    if (flag==0):
+        return "faild"
+    else:
+        return "success"
 
+#print(comclasschose("IEC001",3))
 
-
-givemeclasssclearalreadychoose(3)
+#givemeclasssclearalreadychoose(3)
 
 #givemecalsscleardeparment(10)
+def simplify_courses(data):
+    # 定義中文數字映射
+    chinese_numbers = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '日'}
+    hex_to_dec = {'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15}
+    
+    sorted_data = sorted(data, key=lambda x: len(x[0]))
+
+    return [f'{course[0]} {course[1]} 學分: {course[2]} 上課時間: {"".join([f"({chinese_numbers[course[6][i]]}{hex_to_dec.get(course[6][i+1], course[6][i+1])})" for i in range(0, len(course[6]), 2)])}' for course in sorted_data]
+
+# // 課程說明: {course[5]} //
+#print('\n'.join(simplify_courses(givemeallcalss())))
+#print(simplify_courses(givemeallcalss())[0].split()[0])

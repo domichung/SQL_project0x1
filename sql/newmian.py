@@ -4,7 +4,8 @@
 from flask import Flask, request, render_template, redirect ,url_for ,session
 import  domi_registerlist ,domi_login ,domi_account 
 import  domi_userlist ,domi_adminsys ,domi_newlogin
-import  domi_listmyclass,domi_replacearr
+import  domi_listmyclass,domi_replacearr,domi_loadcanichoose
+import  domi_addclass
 
 
 app = Flask(__name__)
@@ -52,7 +53,7 @@ def rou_admin_setuser():
                                 userbirth = load_sys[0][4], 
                                 usermoreclass = load_sys[0][7],
                                 userdepartment = load_sys[0][6],
-                                userphoto = load_sys[0][8],
+                                userchoosenotherdepartment = load_sys[0][12],
                                 first_check = load_sys[0][10], 
                                 ABCDclass = load_sys[0][11],
                                 list_all_class = domi_registerlist.get_class_names(),
@@ -97,23 +98,23 @@ def rou_choose_mainpage():
     studentname = domi_account.find_name_id(studentid)
     studentbonusclass = domi_account.find_moreclass_byid(studentid)
     nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
-    department_list = domi_registerlist.get_class_names()
+    class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanichoose.givemeallcalss())
 
     timeSlots = [
-    "08:10 ~ 09:00",
-    "09:10 ~ 10:00",
-    "10:10 ~ 11:00",
-    "11:10 ~ 12:00",
-    "12:10 ~ 13:00",
-    "13:10 ~ 14:00",
-    "14:10 ~ 15:00",
-    "15:10 ~ 16:00",
-    "16:10 ~ 17:00",
-    "17:10 ~ 18:00",
-    "18:30 ~ 19:20",
-    "19:25 ~ 20:15",
-    "20:25 ~ 21:15",
-    "21:20 ~ 22:10"
+    "第 一 節 08:10 ~ 09:00",
+    "第 二 節 09:10 ~ 10:00",
+    "第 三 節 10:10 ~ 11:00",
+    "第 四 節 11:10 ~ 12:00",
+    "第 五 節 12:10 ~ 13:00",
+    "第 六 節 13:10 ~ 14:00",
+    "第 七 節 14:10 ~ 15:00",
+    "第 八 節 15:10 ~ 16:00",
+    "第 九 節 16:10 ~ 17:00",
+    "第 十 節 17:10 ~ 18:00",
+    "第十一節 18:30 ~ 19:20",
+    "第十二節 19:25 ~ 20:15",
+    "第十三節 20:25 ~ 21:15",
+    "第十四節 21:20 ~ 22:10"
     ]
 
     counter = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
@@ -121,7 +122,7 @@ def rou_choose_mainpage():
     return render_template('choose_main.html', studentname = studentname, classlist=classlist 
                                              , timeSlots = timeSlots ,counter = counter 
                                              , studentbonusclass = studentbonusclass 
-                                             , nowchoosepoin = nowchoosepoin, department_list = department_list)
+                                             , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed)
 
 #=========================以下腳本
 
@@ -158,7 +159,7 @@ def script_admin_change():
     email = request.form.get("email")
     birthday = request.form.get("birthday")
     grade = request.form.get("grade")
-    photo = request.form.get("user_photo")
+    chosenotheredepartment = request.form.get("chosenotheredepartment")
     Department = request.form.get("department")
     moreclass = request.form.get("moreclass")
     newusercheck = request.form.get("first_login_check")
@@ -170,14 +171,21 @@ def script_admin_change():
         return redirect('/')
     elif start_set_user:
         print("更改用戶:"+str(settinguserid))
-        domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,photo ,Department ,moreclass ,newusercheck ,abcdclass)
+        domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,chosenotheredepartment ,Department ,moreclass ,newusercheck ,abcdclass)
         return redirect(url_for('rou_admin'))
 
 @app.route('/choose_main', methods=['POST'])
 def script_choose():
     next = request.form.get("test")
+    willaddclass = request.form.get("chooselist").split()[0]
+    studentid = session.get('choose_user', 'NULLID')
+    #print(willaddclass + "!!!!!!!!!!!!!!!!!!!!")
     if next:
-        return render_template('choose_faild.html',reason = "幹你娘給我亂選課")
+        reason = domi_addclass.add_userclass(studentid,willaddclass)
+        if (reason == "success"):
+            return render_template('choose_faild.html',reason = "加選成功")
+        else:
+            return render_template('choose_faild.html',reason = reason)
 
 @app.route('/choose_faild', methods=['POST'])
 def script_choose_faild():

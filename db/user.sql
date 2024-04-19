@@ -10,8 +10,9 @@ CREATE TABLE user_box (
     user_photo VARCHAR(10000),
     user_class_count INT(50),
     newusercheck INT(20),
-    ABCDclass   VARCHAR(50)
+    ABCDclass   VARCHAR(50),
+    canmoredepartment INT
 );
 
-INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo, user_class_count, newusercheck ,ABCDclass)
-VALUES ('domichung', '123', 'tmy@example.com', '2002-09-15', '大二', '資訊工程學系', 0,'base64_encoded_image_data', 0, 1, '乙班');
+INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo, user_class_count, newusercheck ,ABCDclass,canmoredepartment)
+VALUES ('domichung', '123', 'tmy@example.com', '2002-09-15', '大二', '資訊工程學系', 0,'base64_encoded_image_data', 0, 1, '乙班',0);

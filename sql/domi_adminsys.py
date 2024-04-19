@@ -41,7 +41,7 @@ def find_people_data(name):
         print("Error:", e)
         return None
 
-def change_user_info(settinguserid, username, pw, email, birthday, grade, photo, Department, moreclass, newusercheck ,abcdclass):
+def change_user_info(settinguserid, username, pw, email, birthday, grade, chosenotheredepartment, Department, moreclass, newusercheck ,abcdclass):
     try:
         # 建立資料庫連線
         conn = MySQLdb.connect(host="127.0.0.1",
@@ -59,14 +59,14 @@ def change_user_info(settinguserid, username, pw, email, birthday, grade, photo,
                  mail = %s,
                  birthday = %s,
                  grade = %s,
-                 user_photo = %s,
+                 canmoredepartment = %s,
                  Department = %s,
                  MORECLASS = %s,
                  newusercheck = %s,
                  ABCDclass = %s
                  WHERE id = %s"""
         
-        cursor.execute(sql, (username, pw, email, birthday, grade, photo, Department, moreclass, newusercheck, abcdclass, settinguserid))
+        cursor.execute(sql, (username, pw, email, birthday, grade, chosenotheredepartment, Department, moreclass, newusercheck, abcdclass, settinguserid))
          
         conn.commit()
         

@@ -49,8 +49,8 @@ def insert_newaccount(username, pw, email, birthday, grade, Department, photo ,m
                            db="user_login")
     
     cursor = conn.cursor()
-    query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo , user_class_count, newusercheck, ABCDclass) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
-    cursor.execute(query, (username, pw, email, birthday, grade, Department, 0, photo, 0, 1, myABCD_class))
+    query = "INSERT INTO user_box (username, password, mail, birthday, grade, Department, MORECLASS, user_photo , user_class_count, newusercheck, ABCDclass ,canmoredepartment) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s);"
+    cursor.execute(query, (username, pw, email, birthday, grade, Department, 0, photo, 0, 1, myABCD_class,0))
     conn.commit()
 
 
@@ -259,3 +259,75 @@ def find_userclasscount_byid(id):
         return None  # 如果沒有找到，返回 None
     
 #print(find_userclasscount_byid(2))
+
+def find_canmoredepartment_byid(id):
+    
+    # 建立讀取資料庫連線
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    query = "SELECT canmoredepartment FROM user_box where id LIKE '{}%';".format(id)
+    # 執行查詢
+    cursor = conn.cursor()
+    cursor.execute(query)
+    # 取得結果
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # 返回
+    else:
+        return None  # 如果沒有找到，返回 None
+    
+#print(find_canmoredepartment_byid(2))
+
+def find_departmentname_byid(id):
+
+    id = str(id)
+
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # Construct the query with proper string formatting
+    query = "SELECT department_name FROM department WHERE department_id = %s"
+    # Execute the query
+    cursor = conn.cursor()
+    cursor.execute(query, (id,))
+    # Get the result
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # Return the department name
+    else:
+        return None  # Return None if not found
+
+#print(find_departmentname_byid(3))
+
+def find_userdepartment_byid(id):
+
+    id = str(id)
+    
+    # 建立讀取資料庫連線
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="userlogin_read",
+                           passwd="read123",
+                           db="user_login")
+    # 欲查詢的 query 指令
+    query = "SELECT Department FROM user_box WHERE id = %s"
+    # 執行查詢
+    cursor = conn.cursor()
+    cursor.execute(query, (id,))
+    # 取得結果
+    result = cursor.fetchone()
+    if result:
+        return result[0]  # 返回
+    else:
+        return None  # 如果沒有找到，返回 None
+
+
+def comp_userdepartment_departmentid(userid,departmentid):
+    a = find_departmentname_byid(departmentid)
+    b =  find_userdepartment_byid(userid)
+    return (a == b)
+
+#print(comp_userdepartment_departmentid(2,3))
