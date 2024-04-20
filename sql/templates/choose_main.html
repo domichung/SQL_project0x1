@@ -38,9 +38,65 @@
         padding: 8px;
         text-align: left;
     }
+
+    .top_bar {
+        background-color: lavenderblush;
+        overflow: hidden;   /*超出容器框的內容會被隱藏*/
+        width: 100%;
+        height: 50px;
+    }
+
+    .top_bar a {
+        float: right;           /*向右浮動*/
+        display: block;         /*顯示為區塊級元素*/
+        color: white;
+        text-align: center;
+        padding: 10px 15px;     /*內邊距*/
+        text-decoration: none;  /*移除元素的文本下劃線*/
+    }
+
+    .top_bar a:hover {
+        background-color: #ddd;
+        color: white;
+    }
+
+    .button {
+        background-color: lightsteelblue;
+        border: none;           /*沒有邊框*/
+        color: white;
+        padding: 10px 20px;     /*內邊距*/
+        font-size: 16px;        /*文字大小*/
+        margin-right: 15px;     /*邊距*/
+        text-align: center;     /*文字置中對齊*/
+        align-items: center;
+        cursor: pointer;
+
+    }
+    .buttons-container {
+        float: right;
+        padding: 4px 20px;
+    }
+
+    .button:hover {
+        background-color: lightsteelblue;  /* 沒按時的背景顏色 */
+    }
+
+    .button:active {
+        background-color: steelblue;  /* 按下時的背景顏色 */
+    }
+
   </style>
 </head>
 <body>
+
+  <div class="top_bar">
+    <div class="buttons-container">
+        <button class="button">加選</button>
+        <button class="button">退選</button>
+        <button class="button">關注</button>
+    </div>
+  </div>
+  
   <div class="container">
     <div class="schedule-container">
       <table id="scheduleTable">
