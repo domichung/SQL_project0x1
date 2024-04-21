@@ -7,97 +7,32 @@ CREATE TABLE `Teacher` (
     `mailbox` VARCHAR (100)
 );
 
-INSERT INTO `Teacher` VALUES(3739, '竇其仁', 1, 'male', 'crdow@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3746, '陳德生', 1, 'male', 'dschen@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3749, '林佩君', 1, 'female', 'peiclin@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3750, '許懷中', 1, 'male', 'hjhsu@mail.fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3761, '林峰正', 1, 'male', 'fclin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3763, '王益文', 1, 'male', 'ywang@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3765, '劉宗杰', 1, 'male', 'tjliu@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3767, '李榮三', 1, 'male', 'leejs@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3768, '劉明機', 1, 'male', 'mingcliu@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3729, '陳青文', 1, 'male', 'chingwen@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3736, '葉春秀', 1, 'female', 'chunhyeh@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(7777, '王小美', 1, 'female', 'mememe@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3808, '黃思倫', 2, 'male', 'srhuang@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3810, '何子儀', 2, 'male', 'tyho@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3811, '梁寶芝', 2, 'female', 'bjliang@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3815, '謝振中', 2, 'male', 'jjshieh@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3816, '陳志強', 2, 'male', 'cchiang@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3825, '李企桓', 2, 'male', 'chihlee@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3827, '鄭進興', 2, 'male', 'chcheng@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3831, '陳坤煌', 2, 'male', 'chenkh@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3838, '王壘', 2, 'male', 'leiwang@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5756, '洪耀正', 2, 'male', 'yaochenhung@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3836, '林欽瑞', 2, 'male', 'rclin@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3805, '徐士賢', 2, 'male', 'shihhhsu@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4957, '簡鳳佐', 3, 'male', 'ftchien@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4958, '康宗貴', 3, 'male', 'kangtk@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4965, '劉堂傑', 3, 'male', 'dgliu@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4966, '林宗志', 3, 'male', 'tclin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4969, '林成利', 3, 'male', 'clilin@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(4962, '楊炳章', 3, 'male', 'pcyang@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3922, '張興政', 4, 'male', 'hcchang@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3926, '鄒慶福', 4, 'male', 'cftsou@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3928, '劉益瑞', 4, 'male', 'erliu@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3934, '洪三山', 4, 'male', 'sshung@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3938, '林賢龍', 4, 'male', 'sllin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3925, '林育德', 5, 'male', 'ydlin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3937, '沈祖望', 5, 'male', 'twshen@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3900, '林昱成', 5, 'male', 'yuchlin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4810, '彭嘉美', 5, 'female', 'may6660@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4813, '袁世一', 5, 'male', 'syyuan@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4816, '林漢年', 6, 'male', 'hnlin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4819, '林立謙', 6, 'male', 'lclin@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4824, '廖知恩', 6, 'male', 'heliao@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4839, '陸清達', 6, 'male', 'chingtlu@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4845, '蔡淵裕', 6, 'male', 'yuanytsai@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5046, '葉建宏', 7, 'male', 'yehch@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5057, '李英德', 7, 'male', 'yinglee@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(5058, '林泰生', 7, 'male', 'tyson@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5069, '周哲仲', 7, 'male', 'choucc@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(5070, '馬仕信', 7, 'male', 'shma@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(2137, '黃煇慶', 8, 'male', 'cheeny@ms6.hinet.net');
-INSERT INTO `Teacher` VALUES(5323, '朱正永', 8, 'male', 'cychu@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(5630, '王志宇', 8, 'male', 'wangcy@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(5667, '張志相', 8, 'male', 'cschang@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(5670, '戴瑞坤', 8, 'male', 'rktai@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(2080, '林彩玉', 9, 'female', 'linty@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5113, '楊菁菁', 9, 'female', 'yangcc@fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5118, '魏秀娟', 9, 'female', 'hsiucwei@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(5125, '黃同瑤', 9, 'female', 'huangty@fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(6213, '賴奇厚', 9, 'male', 'chlay@mail.fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(3001, '周澤捷', 10, 'male', 'chz@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4013, '林麗芬', 10, 'female', 'lflin@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4402, '鍾冬川', 10, 'male', 'dcjhwueng@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4408, '林文欽', 10, 'male', 'linwc@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4418, '吳榮彬', 10, 'male', 'cwu@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3959, '張淵仁', 11, 'male', 'yjenchang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3960, '謝宗翰', 11, 'male', 'thshieh@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3975, '楊瑞彬', 11, 'male', 'rbyang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3976, '方俊', 11, 'male', 'jfang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3980, '黃柏文', 11, 'male', 'pwhwang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5502, '闕帝丰', 12, 'male', 'difeng.c@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5609, '李麗秋', 12, 'female', 'lclee@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5610, '莊坤良', 12, 'male', 'klchuang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5625, '邱源貴', 12, 'male', 'ygchiou@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(5644, '劉顯親', 12, 'female', 'hcliou@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(2600, '賴文祥', 13, 'male', 'whlai@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4272, '簡士超', 13, 'male', 'scchien@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4273, '李元恕', 13, 'male', 'yslii@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4386, '何晉瑋', 13, 'male', 'cweiho@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(6010, '林豐智', 13, 'male', 'fjlin@mail.fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(4385, '李悅端', 13, 'male', 'yuehtli@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3122, '王起平', 14, 'female', 'cpwang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3123, '林慶昌', 14, 'male', 'cclin@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3130, '張智元', 14, 'male', 'rchang@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(3150, '林正紋', 14, 'male', 'jwlin@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4273, '林保宏', 14, 'male', 'paolin@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4705, '陳建元', 15, 'male', 'cyuan@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4708, '洪本善', 15, 'male', 'pshung@mail.fcu.edu.tw');
+INSERT INTO `Teacher` VALUES(4387, '丁美靜', 13, 'female', 'mcding@mail.fcu.edu.tw');
+INSERT INTO `Teacher` VALUES(3118, '賴哲儇', 14, 'male', 'jslai@mail.fcu.edu.tw');
+INSERT INTO `Teacher` VALUES(3121, '曾韋禎', 14, 'male', 'wctseng@mail.fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(4714, '李瑞陽', 15, 'male', 'rylee@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4727, '王珍玲', 15, 'female', 'wangcl@mail.fcu.edu.tw');
-INSERT INTO `Teacher` VALUES(4733, '辛年豐', 15, 'male', 'nfshin@mail.fcu.edu.tw');
 INSERT INTO `Teacher` VALUES(1029, '方淳民', 4, 'male', 'fang0129.tw@yahoo.com.tw');
 
 
@@ -156,7 +91,6 @@ INSERT INTO `Course` VALUES ('PHYS105', '普通物理(一)', 9, 'yes', 4, 'Introducti
 INSERT INTO `Course` VALUES ('PHYS202', '電磁學(二)', 7, 'yes', 3, 'Introduction of maganaic');
 INSERT INTO `Course` VALUES ('IECS888', '競賽程式', 1, 'no', 4, 'Introduction of Programming Contest');
 INSERT INTO `Course` VALUES ('IECS2003', '系統程式', 1, 'yes', 3, 'Introduction of common system software in computer systems');
-
 INSERT INTO `Course` VALUES ('IECS359', '人工智慧導論', 1, 'no', 3, 'Introduction of AI');
 INSERT INTO `Course` VALUES ('IECS303', '計算機結構學', 1, 'yes', 3, 'Introduction of Design of CPU in computer systems');
 INSERT INTO `Course` VALUES ('IECS471', '程式設計與問題解決', 1, 'no', 2, 'Introduction of Based on various problem-solving algorithms');
@@ -166,13 +100,10 @@ INSERT INTO `Course` VALUES ('EEEN2018', '電波工程概論', 2, 'no', 2, 'Introducti
 INSERT INTO `Course` VALUES ('ELEN2003', '電子學(二)', 3, 'yes', 3, 'Introduction of how to express scientific or engineering problems using mathematical methods');
 INSERT INTO `Course` VALUES ('ELEN2016', '積體電路導論', 3, 'no', 3, 'Introduction of the basic concepts of integrated circuits');
 INSERT INTO `Course` VALUES ('MKT1030', '行銷意象工程', 13, 'yes', 3, 'This course is an introductory introduction to art and design');
-
 INSERT INTO `Course` VALUES ('MKT2051', '行銷策略與個案分析', 13, 'no', 3, 'This course explores the core concepts ofstrategic marketing, implementation, andtheir integration in practical operations.');
 INSERT INTO `Course` VALUES ('CE2085', '土壤力學(一)', 14, 'yes', 3, 'The content studied is an essential tool for the analysis and design of geotechnical engineering such as building foundations and retaining structures.');
 INSERT INTO `Course` VALUES ('CE2080', '地形測量', 14, 'no', 3, 'This course aims to enable students to understand the principles of topographic surveying, operational techniques and drawing methods, and become proficient in the operation and maintenance of surveying instruments, integrating theory with practice.');
 INSERT INTO `Course` VALUES ('LAND2040', '地理資訊系統概論', 15, 'yes', 3, 'Introduction of the theory, application level and software operation of geographic information system (GIS) and spatial information');
-INSERT INTO `Course` VALUES ('LAND2048', '不動產行銷管理實務', 15, 'no', 3, 'This course enables students to understand real estate marketing by teaching marketing-related theories and real estate marketing management examples, including real estate marketing plans, market research and analysis, sales field management, advertising planning copywriting, marketing strategies and group practical exercises. Theoretical application and practical operation.');
-
 
 
 CREATE TABLE `Course_Instance` (
@@ -211,6 +142,10 @@ INSERT INTO `Course_Instance` VALUES (1623, 'EEEN2018', 3816, 60, 0);
 INSERT INTO `Course_Instance` VALUES (1486, 'ELEN2003', 4962, 70, 0);
 INSERT INTO `Course_Instance` VALUES (1503, 'ELEN2016', 4962, 120, 0);
 INSERT INTO `Course_Instance` VALUES (0714, 'MKT1030', 4385, 80, 0);
+INSERT INTO `Course_Instance` VALUES (0737, 'MKT2051', 4387, 60, 0);
+INSERT INTO `Course_Instance` VALUES (0945, 'CE2085', 3121, 62, 0);
+INSERT INTO `Course_Instance` VALUES (0956, 'CE2080', 3118, 62, 0);
+INSERT INTO `Course_Instance` VALUES (2320, 'LAND2040', 4714, 60, 0);
 
 
 

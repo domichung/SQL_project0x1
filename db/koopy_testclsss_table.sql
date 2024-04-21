@@ -22,7 +22,6 @@ INSERT INTO `Course` VALUES ('EE0013', '基礎物理', 2, 'no', 3, '電機系搞死人的科
 INSERT INTO `Course` VALUES ('EE0012', '電路學', 2, 'yes', 3, '電機系搞死人的科目2','4a4b4c',5,0);
 INSERT INTO `Course` VALUES ('ECE0001', '電子學', 3, 'no', 3, '電子學系搞死人的科目1','4a4b4c',5,0);
 INSERT INTO `Course` VALUES ('STAT0087', '統計學', 10, 'no', 3, '統計學系','6c6d7e',5,0);
-
 INSERT INTO `Course` VALUES ('IECS2003', '系統程式',1, 'yes', 3, 'Introduction of common system software in computer systems','131434',69,0);
 INSERT INTO `Course` VALUES ('IECS359', '人工智慧導論', 1, 'no', 3, 'Introduction of Al','121314',60,0);
 INSERT INTO `Course` VALUES ('IECS303', '計算機結構學', 1, 'yes', 3, 'Introduction of Design of CPU in computer systems','285354',73,0);
@@ -33,3 +32,7 @@ INSERT INTO `Course` VALUES ('EEEN2018', '電波工程概論', 2, 'no', 2, 'Introducti
 INSERT INTO `Course` VALUES ('ELEN2003', '電子學(二)', 3, 'yes', 3, 'Introduction of how to express scientific or engineering problems using mathematical methods','384243',70,0);
 INSERT INTO `Course` VALUES ('ELEN2016', '積體電路導論', 3, 'no', 3, 'Introduction of the basic concepts of integrated circuits','2a3132',120,0);
 INSERT INTO `Course` VALUES ('MKT1030', '行銷意象工程', 13, 'yes', 3, 'This course is an introductory introduction to art and design','424344',80,0);
+INSERT INTO `Course` VALUES ('MKT2051', '行銷策略與個案分析', 13, 'no', 3, 'This course explores the core concepts ofstrategic marketing, implementation, andtheir integration in practical operations.','373839',60,0);
+INSERT INTO `Course` VALUES ('CE2085', '土壤力學(一)', 14, 'yes', 3, 'The content studied is an essential tool for the analysis and design of geotechnical engineering such as building foundations and retaining structures.','262728',62,0);
+INSERT INTO `Course` VALUES ('CE2080', '地形測量', 14, 'no', 2, 'This course aims to enable students to understand the principles of topographic surveying, operational techniques and drawing methods, and become proficient in the operation and maintenance of surveying instruments, integrating theory with practice.','1617',62,0);
+INSERT INTO `Course` VALUES ('LAND2040', '地理資訊系統概論', 15, 'yes', 3, 'Introduction of the theory, application level and software operation of geographic information system (GIS) and spatial information','161718',60,0);
