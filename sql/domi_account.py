@@ -20,10 +20,10 @@ def check_newaccount(name):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT id FROM user_box where username LIKE '{}%';".format(name)
+    query = "SELECT id FROM user_box where username = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(name,))
     return cursor.fetchone()
 
 
@@ -35,10 +35,10 @@ def check_newmail(mail):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT id FROM user_box where mail LIKE '{}%';".format(mail)
+    query = "SELECT id FROM user_box where mail = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(mail,))
     return cursor.fetchone()
 
 
@@ -92,16 +92,20 @@ def find_id(name):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT id FROM user_box where username LIKE '{}%';".format(name)
+    query = "SELECT id FROM user_box where username = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(name,))
     # 取得結果
     result = cursor.fetchone()
-    if result:
+    #print(result)
+    #print("a")
+    if result != None:
         return result[0]  # 返回 id
     else:
         return None  # 如果沒有找到，返回 None
+
+#print(find_id("domichung"))
 
 def find_grade_id(grade):
     conn = MySQLdb.connect(host="127.0.0.1",
@@ -180,9 +184,9 @@ def find_user_classlist_name(id):
     # 欲查詢的 query 指令
     cursor = conn.cursor()
 
-    sql = """SELECT * FROM user_box WHERE id = %s"""
+    sql = """SELECT * FROM `user_box` WHERE id = %s"""
     # 執行查詢
-    cursor.execute(sql,(str(id)))
+    cursor.execute(sql,(str(id),))
     conn.commit()
     people_data = cursor.fetchall()
     #print(people_data)
@@ -197,7 +201,7 @@ def find_user_classlist_name(id):
     
     return search_class
 
-#print(find_user_classlist_name(2))
+#print(find_user_classlist_name("14"))
 
 def find_name_id(id):
     
@@ -207,10 +211,10 @@ def find_name_id(id):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT username FROM user_box where id LIKE '{}%';".format(id)
+    query = "SELECT username FROM user_box where id = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(id,))
     # 取得結果
     result = cursor.fetchone()
     if result:
@@ -228,10 +232,10 @@ def find_moreclass_byid(id):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT moreclass FROM user_box where id LIKE '{}%';".format(id)
+    query = "SELECT moreclass FROM user_box where id = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(id,))
     # 取得結果
     result = cursor.fetchone()
     if result:
@@ -247,10 +251,10 @@ def find_userclasscount_byid(id):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT user_class_count FROM user_box where id LIKE '{}%';".format(id)
+    query = "SELECT user_class_count FROM user_box where id = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(id,))
     # 取得結果
     result = cursor.fetchone()
     if result:
@@ -268,10 +272,10 @@ def find_canmoredepartment_byid(id):
                            passwd="read123",
                            db="user_login")
     # 欲查詢的 query 指令
-    query = "SELECT canmoredepartment FROM user_box where id LIKE '{}%';".format(id)
+    query = "SELECT canmoredepartment FROM user_box where id = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(id,))
     # 取得結果
     result = cursor.fetchone()
     if result:

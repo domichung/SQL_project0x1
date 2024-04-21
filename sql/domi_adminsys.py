@@ -8,10 +8,10 @@ def check_is_admin(name):
                            passwd="read123",
                            db="admin_login")
     # 欲查詢的 query 指令
-    query = "SELECT admin_id FROM adminlist where name LIKE '{}%';".format(name)
+    query = "SELECT admin_id FROM adminlist where name = %s;"
     # 執行查詢
     cursor = conn.cursor()
-    cursor.execute(query)
+    cursor.execute(query,(name,))
     return cursor.fetchone()
 
 def find_people_data(name):

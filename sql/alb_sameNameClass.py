@@ -26,10 +26,9 @@ def check_same_name(course_ID, user_ID):
 
     for course in user_class_pro:
         if course_name_pro[0][0] in course:
-            print("already had a same name course !!!")
-            return False
+            #print("already had a same name course !!!")
+            return "faild"
     
-    print("++++")
-    return True
+    return "success"
     
 # check_same_name('IECS0333' , '3')

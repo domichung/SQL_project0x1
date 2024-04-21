@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import MySQLdb
-import domi_timmercut ,domi_classinfo ,domi_newlogin ,domi_account ,domi_adminsys
+import domi_timmercut ,domi_classinfo ,domi_newlogin ,domi_account ,domi_adminsys , domi_dice_classlist
 
 
 def update_user_class(user_ID,delete_course_ID):
@@ -143,6 +143,7 @@ def delete_user_class(course_ID,user_ID):
         update_user_class(user_ID, course_ID)
         minus_classpoint(user_ID, classpoint_value)
         killstudentnuminclass(course_ID)
+        domi_dice_classlist.someone_leaveclass(course_ID)
         return "success"
         
         

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>選課區域</title>
+  <title>預選區域</title>
   <style>
     body {
         background-image: url('/static/background_09.jpg');
@@ -20,7 +20,6 @@
         background-color: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 20px;
-        height: 50%;
     }
     .sidebar {
         width: 25%;
@@ -86,35 +85,6 @@
     .button:active {
         background-color: lightsteelblue;  /* 按下時的背景顏色 */
     }
-    .btn-box {
-      display:inline-block;
-      vertical-align:middle;
-      width: 40px;
-      height: 20px;
-      border-radius:100px;
-      background-color: #ccc;
-      box-shadow: 0px 3px 0px rgba(0,0,0,.13) inset;
-  }
-  .btn-box .btn {
-      display:inline-block;
-      width: 20px;
-      height: 20px;
-      border-radius:50%;
-      background-color: #fff;
-      margin-left: 0;/*動畫從ml為0開始*/
-      transition: .5s;
-      box-shadow:1px 2px 5px rgba(0,0,0,.3);
-  }
-  .checkbox {
-    position:absolute;
-    opacity:0;
-  }
-  .checkbox:checked + .btn-box {
-    background-color: #8f8;
-  }
-  .checkbox:checked + .btn-box .btn {
-    margin-left: 20px;
-  }
 
   </style>
 </head>
@@ -161,28 +131,20 @@
       預選課表: {{will_list}}
     </div>
     <div class="sidebar">
-      <form method="post" action="/choose_main" >
+      <form method="post" action="/unwillchoose_main" >
         <!-- Sidebar content: buttons and other functionalities -->
         歡迎用戶 {{studentname}} <br/>
         你目前已選取 {{nowchoosepoin}} / {{studentbonusclass+25}} 學分
-        <br/><br/>
-        <label>
-          <input type="checkbox" name="recommend" class="checkbox">
-          <span class="btn-box">
-            <span class="btn"></span>      
-          </span>
-          <span class="text">開啟推薦模式</span>
-        </label>
-        <br/><br/>
-        <label for="chooselist">選課列表：</label>
-        <select id="chooselist" name="chooselist">
-          <option>請選擇你要加選的課程</option>
+        <br/><br/><br/><br/>
+        <label for="unwillchooselist">可退預選列表：</label>
+        <select id="unwillchooselist" name="unwillchooselist">
+          <option>請選擇你要退預選的課程</option>
           {% for chooseclass_item in class_ineed %}
               <option>{{ chooseclass_item }}</option>
           {% endfor %}
         </select>
 
-        <input type="submit" value="按鈕" name="test">
+        <input type="submit" value="按鈕" name="setting">
         <!-- Add more buttons or functionalities here -->
       </form>
       </div>

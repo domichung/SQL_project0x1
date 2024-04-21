@@ -96,6 +96,7 @@
         <input type="submit" value="加選" name="add" class="button">
         <input type="submit" value="退選" name="kill" class="button">
         <input type="submit" value="預選" name="wait" class="button">
+        <input type="submit" value="退預選" name="leavewait" class="button">
       </form>
   </div>
   
@@ -135,7 +136,7 @@
         歡迎用戶 {{studentname}} <br/>
         你目前已選取 {{nowchoosepoin}} / {{studentbonusclass+25}} 學分
         <br/><br/><br/><br/>
-        <label for="willchooselist">可預選選列表：</label>
+        <label for="willchooselist">可預選列表：</label>
         <select id="willchooselist" name="willchooselist">
           <option>請選擇你要預選的課程</option>
           {% for chooseclass_item in class_ineed %}

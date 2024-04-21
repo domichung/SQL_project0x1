@@ -59,7 +59,7 @@ def check_classpint_inrange(userid,willpoint):
         cursor = conn.cursor()
         
         # 修改 SQL 查詢，只選擇指定名字的資料
-        cursor.execute("SELECT * FROM user_box WHERE id = %s", (str(userid)))
+        cursor.execute("SELECT * FROM user_box WHERE id = %s", (str(userid),))
         
         # 取得所有符合條件的資料
         people_data = cursor.fetchall()
@@ -71,11 +71,11 @@ def check_classpint_inrange(userid,willpoint):
         if (people_data[0][9] + int(willpoint) <= 25 + people_data[0][7]):
             return "success"
         else:
-            return "fails"       
+            return "faild"       
         
     except Exception as e:
         print("Error:", e)
         return None
     
 
-#print(check_classpint_inrange(3,15))
+#print(check_classpint_inrange("3","1"))

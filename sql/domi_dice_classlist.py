@@ -1,5 +1,114 @@
-import MySQLdb ,random ,domi_addclass
+import MySQLdb ,random ,domi_addclass ,domi_diceleave_classlist
 import domi_addclass,domi_classinfo,domi_account,domi_loadcanichoose,domi_checkclasssys,domi_timmercut
+
+
+def killuser_inselfstorge(userid,class_id):
+    conn = MySQLdb.connect(host="127.0.0.1",
+                           user="willchoose_root",
+                           passwd="root123",
+                           db="willchooseclass")
+    
+    cursor = conn.cursor()
+
+    storgename = str(userid) + "_wait_class_list"
+    
+    create_table_query = """DELETE FROM `{}` WHERE `classid` = %s;""".format(storgename)
+
+    cursor.execute(create_table_query,(class_id,))
+    
+    conn.commit()
+    conn.close()
+
+
+def check_class_willchoose(userid,_time_str):
+    user_dbname = str(userid) + "_classlist"
+    _time_str_cut = domi_timmercut.dm_time_cut(str(_time_str))
+    #print("a")
+    try:
+        conn = MySQLdb.connect(host="127.0.0.1",
+                               user="userclass_read",
+                               passwd="read123",
+                               db = 'user_class')
+        
+        cursor = conn.cursor()
+
+        for i in  range(len(_time_str)//2):
+            
+            today_value = _time_str_cut[i][0]
+            #print(today_value)
+
+            query = f"SELECT * FROM {user_dbname} WHERE TODAY = %s"
+            cursor.execute(query, (today_value,))
+        
+            classinfo = cursor.fetchall()
+        
+            classinfo_array = [list(item) for item in classinfo]
+
+
+            #print(classinfo_array[0][_time_str_cut[i][1]])
+
+            if (classinfo_array[0][_time_str_cut[i][1]] != None):
+                if (classinfo_array[0][_time_str_cut[i][1]] != "預選"):
+                    return "faild"
+        
+
+        cursor.close()
+        conn.close()
+
+        return "success"
+        
+    except Exception as e:
+        print("Error:", e)
+        return None
+
+
+#print(check_class_willchoose("10","6c6d7e"))
+
+
+def dice_add_userclass(userid,courseid):
+    user_dbname = str(userid) + '_classlist'
+    #print(user_dbname)
+    try:
+        # 建立資料庫連線
+        
+        _classinfo = domi_classinfo.find_class_info(courseid)
+        _userinfo_canchosemoredepartment = domi_account.find_canmoredepartment_byid(userid)
+
+        if (domi_loadcanichoose.comclasschose(_classinfo[0][0],userid) == "faild"):
+            return "你已選擇此課程"
+
+        #改
+        if (check_class_willchoose(userid,_classinfo[0][6]) == "faild"):
+            return "你這節課已經有選課囉"
+        
+        #學分數上限
+        if (domi_checkclasssys.check_classpint_inrange(userid , _classinfo[0][4]) == "faild"):
+            #print(str(_classinfo[0][4]) + "<===學分數")
+            return "你已抵達學分上限 整個深淵都為你撼動"
+        
+        #選課人數超過上限
+        if (_classinfo[0][8]+1>_classinfo[0][7]):
+            return "滿人囉 可以考慮前往預選"
+
+        if (_userinfo_canchosemoredepartment == 0):
+            #print(str(userid)+ " "+ str(_classinfo[0][2]))
+            if (domi_account.comp_userdepartment_departmentid(int(userid),int(_classinfo[0][2])) != "success" ):
+                return "你尚未獲得外系選修資格"
+
+        _time_str_cut = domi_timmercut.dm_time_cut(_classinfo[0][6])
+
+        #print(_classinfo[0][4])
+        
+        if (1):
+            domi_addclass._insert_into_classlist(_classinfo[0][0],_time_str_cut,user_dbname)
+            domi_addclass.adduserclasspoint(userid,_classinfo[0][4])
+            domi_addclass.addstudentnuminclass(_classinfo[0][0])
+            return 'success'
+        
+    except:
+        return '你尚未選擇任何課程'
+
+#print(dice_add_userclass("10","STAT0087"))
 
 def check_class_full(class_id):
     conn = MySQLdb.connect(host="127.0.0.1",
@@ -121,14 +230,17 @@ def killuser_instorge(userid,class_id):
     conn.close()
 
 def someone_leaveclass(class_id):
+    _classinfo = domi_classinfo.find_class_info(class_id)
     try:
         user = choose_luck_user(class_id)
         killuser_instorge(user[0],class_id)
-        domi_addclass.add_userclass(user[1  ],class_id)
+        dice_add_userclass(user[1],class_id)
+        domi_addclass.adduserclasspoint(user[1],-(_classinfo[0][4]))
+        domi_diceleave_classlist.killuser_inselfstorge(user[1],class_id)
     except:
-        print("這堂課無等候名單")
+        print("FUCKKKKKKKKKKKKKKKKKKKK")
 
-#someone_leaveclass("IECS0002")
+#someone_leaveclass("STAT0087")
 
 def add_user_instorge(userid,class_id):
     if (check_class_full(class_id) != True ):
@@ -144,8 +256,7 @@ def add_user_instorge(userid,class_id):
         print("完成預選")
         return "預選成功!"
     
-#add_user_instorge("8","IECS0002")
-
+#add_user_instorge("16","STAT0087")
 
 def create_new_userstorge(user_id):
     conn = MySQLdb.connect(host="127.0.0.1",
@@ -265,4 +376,4 @@ def read_userwillchooselist(userid):
         
     return department_names
 
-#print(read_userwillchooselist("aaa"))
+#print(read_userwillchooselist("2"))

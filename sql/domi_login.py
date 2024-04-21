@@ -8,21 +8,27 @@ def check_login(login_id ,login_password):
                            user="userlogin_read",
                            passwd="read123",
                            db="user_login")
-    # 欲查詢的 query 指令
-    query = "SELECT password FROM user_box where username LIKE '{}%';".format(login_id)
-    # 執行查詢
-    cursor = conn.cursor()
-    cursor.execute(query)
-    # 取得搜尋結果
-    results = cursor.fetchone()[0]
+    # 欲查詢的 query 
+    
+    try:
+        query = "SELECT password FROM user_box where username = %s;"
+        # 執行查詢
+        cursor = conn.cursor()
+        cursor.execute(query,(login_id,))
+        # 取得搜尋結果
+        results = cursor.fetchone()[0]
+        cursor.close()
+        
+        print("www")
 
-
-    check_status = "SELECT newusercheck FROM user_box where username LIKE '{}%';".format(login_id)
-    # 執行查詢
-    cursor = conn.cursor()
-    cursor.execute(check_status)
-    # 取得搜尋結果
-    check_firstlogin = cursor.fetchone()[0]
+        check_status = "SELECT newusercheck FROM user_box where username = %s;"
+        # 執行查詢
+        cursor = conn.cursor()
+        cursor.execute(check_status,(login_id,))
+        # 取得搜尋結果
+        check_firstlogin = cursor.fetchone()[0]
+    except:
+        results = "none"
 
     if (results == "none"):
         print("警告 : 帳號不存在\n輸入帳號:" + login_id + "\n輸入密碼:" + login_password)
@@ -39,3 +45,4 @@ def check_login(login_id ,login_password):
     else:
         return 2 + int(check_firstlogin)
     
+#print(check_login("a","123"))

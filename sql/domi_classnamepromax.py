@@ -53,9 +53,26 @@ def promax_input_string(arr):
 
     if (result_string == "尚/未/預/選"):
         result_string = "尚未預選"
+    if (result_string == ""):
+        result_string = "尚未預選"
 
     return result_string
 
 #old_array = [[1, "IECS0003", 3], [4, None, "IECS0002"], [7, 8, None]]
 #new_array = promax_input_string(old_array)
 #print(new_array)
+
+def flatten_2d_array(array_2d):
+    flattened_array = []
+    for row in array_2d:
+        for element in row:
+            flattened_array.append(element)
+    return flattened_array
+
+#array_2d = [
+#    [1, 2, 3],
+#    [4, 5, 6],
+#    [7, 8, 9]
+#]
+
+#print(flatten_2d_array(array_2d))

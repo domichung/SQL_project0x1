@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>預選失敗</title>
+  <title>退預選成功</title>
   <style>
     body {
-        background-image: url('/static/background_16sql/templates/willchoose_success.html.gif'); 
+        background-image: url('/static/background_17.gif'); 
         background-size: cover;
         background-repeat: no-repeat;
         margin: 0;
@@ -52,10 +52,10 @@
   </style>
 </head>
 <body>
-  <div id="header"><h3>預選失敗:</h3><p>{{ reason }}</p></div>
+  <div id="header"><h3>退預選成功:</h3><p>{{ name }}</p></div>
   <div>
-    <form method="post" action="/willchoose_faild">
-      <input type="submit" value="回到預選介面" name="backtochoose">
+    <form method="post" action="/unwillchoose_success">
+      <input type="submit" value="回到退預選介面" name="backtochoose">
     </form>
   </div>
 </body>

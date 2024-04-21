@@ -3,9 +3,10 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask, request, render_template, redirect ,url_for ,session
 import  domi_registerlist ,domi_login ,domi_account,domi_dice_classlist
-import  domi_userlist ,domi_adminsys ,domi_newlogin
+import  domi_userlist ,domi_adminsys ,domi_newlogin,domi_diceleave_classlist
 import  domi_listmyclass,domi_replacearr,domi_loadcanichoose
 import  domi_addclass,domi_loadcanileave,alb_deleteClass,domi_classnamepromax
+import  domi_littleeggggy
 
 
 app = Flask(__name__)
@@ -147,7 +148,11 @@ def rou_unchoose_mainpage():
     studentname = domi_account.find_name_id(studentid)
     studentbonusclass = domi_account.find_moreclass_byid(studentid)
     nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
-    class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanileave.unchoose_list(studentid))
+
+    try:
+        class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanileave.unchoose_list(studentid))
+    except:
+        class_ineed = class_ineed = domi_littleeggggy.re_sellectlist_second()
 
     try:
         will_list = domi_dice_classlist.read_userwillchooselist(studentid)
@@ -233,6 +238,61 @@ def rou_willchoose_mainpage():
                                              , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed
                                              , will_list = domi_classnamepromax.promax_input_string(will_list))
 
+#=========================預退選路由
+
+@app.route('/choose/leavewill/<unwillchoose_user_id>', methods=['GET'])
+def rou_unwillchoose_setuser(unwillchoose_user_id):
+    session['choose_user'] = unwillchoose_user_id
+    return redirect(url_for('rou_unwillchoose_mainpage'))
+
+@app.route('/choose/unwillchoose', methods=['GET'])
+def rou_unwillchoose_mainpage():
+    studentid = session.get('choose_user', 'NULLID')
+    classlist = domi_replacearr.replace(domi_listmyclass.get_students_classlist(studentid))
+    studentname = domi_account.find_name_id(studentid)
+    studentbonusclass = domi_account.find_moreclass_byid(studentid)
+    nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
+    try:
+        class_ineed = domi_classnamepromax.flatten_2d_array(domi_classnamepromax.promax_input(domi_dice_classlist.read_userwillchooselist(studentid)))
+    except:
+        class_ineed = domi_littleeggggy.re_sellectlist()
+    #print(domi_classnamepromax.flatten_2d_array(domi_dice_classlist.read_userwillchooselist(studentid)))
+
+    try:
+        will_list = domi_dice_classlist.read_userwillchooselist(studentid)
+    except:
+        will_list = "尚未預選"
+
+
+    timeSlots = [
+    "第 一 節 08:10 ~ 09:00",
+    "第 二 節 09:10 ~ 10:00",
+    "第 三 節 10:10 ~ 11:00",
+    "第 四 節 11:10 ~ 12:00",
+    "第 五 節 12:10 ~ 13:00",
+    "第 六 節 13:10 ~ 14:00",
+    "第 七 節 14:10 ~ 15:00",
+    "第 八 節 15:10 ~ 16:00",
+    "第 九 節 16:10 ~ 17:00",
+    "第 十 節 17:10 ~ 18:00",
+    "第十一節 18:30 ~ 19:20",
+    "第十二節 19:25 ~ 20:15",
+    "第十三節 20:25 ~ 21:15",
+    "第十四節 21:20 ~ 22:10"
+    ]
+
+    counter = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+
+    if (session.get('showmode',"0") == 1):
+        classlist = domi_classnamepromax.promax_input(classlist)
+        will_list = domi_classnamepromax.promax_input(will_list)
+
+    return render_template('unwillchoose_main.html', studentname = studentname, classlist=classlist 
+                                             , timeSlots = timeSlots ,counter = counter 
+                                             , studentbonusclass = studentbonusclass 
+                                             , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed
+                                             , will_list = domi_classnamepromax.promax_input_string(will_list))
+
 #=========================以下腳本
 
 @app.route('/menu', methods=['POST'])
@@ -289,6 +349,7 @@ def script_change_page():
     next2 = request.form.get("kill")
     next3 = request.form.get("wait")
     next4 = request.form.get("showchange")
+    next5 = request.form.get("leavewait")
     idcallback = session.get('choose_user', 'NULLID')
     if next1:
         #print("case1")
@@ -305,6 +366,9 @@ def script_change_page():
         else:
             session['showmode'] = 1
         return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
+    if next5:
+        return redirect(url_for('rou_unwillchoose_setuser', unwillchoose_user_id = idcallback))
+
 
 
 @app.route('/choose_main', methods=['POST'])
@@ -346,6 +410,8 @@ def script_unchoose():
     willdeleteclass = request.form.get("unchooselist").split()[0]
     studentid = session.get('choose_user', 'NULLID')
     if next:
+        if (willdeleteclass  == "閃亮亮的彩蛋~~"):
+                return render_template('easteregggggy.html')  
         try:
             reason = alb_deleteClass.delete_user_class(willdeleteclass,studentid)
             if (reason == "success"):
@@ -395,6 +461,36 @@ def script_willchoose_success():
     if back:
         return redirect(url_for('rou_willchoose_setuser', willchoose_user_id = idcallback))
 
+@app.route('/unwillchoose_main', methods=['POST'])
+def script_unwillchoose():
+    next = request.form.get("setting")
+    willclass = request.form.get("unwillchooselist").split()[0]
+    studentid = session.get('choose_user', 'NULLID')
+    if next:
+        #print(willclass)
+        willclass = domi_diceleave_classlist.change_name_to_id(willclass)
+        #print(willclass)
+        reason = domi_diceleave_classlist.leavewillclass(studentid,willclass[0])
+        if (willclass == "閃亮亮的彩蛋~~"):
+            return render_template('easteregggggy.html')
+        elif (reason == "success"):
+            return render_template('unwillchoose_success.html',name= willclass)
+        else:
+            return render_template('unwillchoose_faild.html',reason = reason)
+        
+@app.route('/unwillchoose_faild', methods=['POST'])
+def script_leavewillchoose_faild():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_unwillchoose_setuser', unwillchoose_user_id = idcallback))
+
+@app.route('/unwillchoose_success', methods=['POST'])
+def script_leavewillchoose_success():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_unwillchoose_setuser', unwillchoose_user_id = idcallback))
 
 @app.route('/login', methods=['POST'])
 def script_login():
@@ -402,8 +498,11 @@ def script_login():
     username = request.form.get("username")
     pw = request.form.get("password")
 
-    results = domi_login.check_login(username,pw)
-    idcallback = domi_account.find_id(username)
+    try:
+        results = domi_login.check_login(username,pw)
+        idcallback = domi_account.find_id(username)
+    except:
+        results = 0
 
     if results == 0:
         return redirect('/loginfaild')

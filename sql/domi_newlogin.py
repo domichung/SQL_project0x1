@@ -43,11 +43,12 @@ def insert_newaccount(id):
     conn.close()
 
 def newclasslist_main(id):
+    print(id)
     try:
         insert_newaccount(id)
         domi_account.set_newloginstatus(id)
         print('帳號創建成功')
-        print('載入課表'+LDDclass(id))
+        print('載入課表'+ LDDclass(id))
     except:
         domi_account.set_newloginstatus(id)
         print('已存在帳號 註冊失敗')
@@ -82,6 +83,7 @@ def LDDclass(id):
     search_class = domi_account.find_user_classlist_name(id)
 
     print(search_class+"\n")
+
     #print(LD_dclasslist(search_class))
     inlist = LD_dclasslist(search_class)
     #print(len(LD_dclasslist(search_class)))
@@ -96,4 +98,4 @@ def LDDclass(id):
     
     return 'success'
 
-#LDDclass(3)
+#LDDclass("13")
