@@ -6,7 +6,7 @@ import domi_account
 def add_userclass(userid,courseid):
     user_dbname = str(userid) + '_classlist'
     #print(user_dbname)
-    if (1):
+    try:
         # 建立資料庫連線
         
         _classinfo = domi_classinfo.find_class_info(courseid)
@@ -29,7 +29,7 @@ def add_userclass(userid,courseid):
             return "滿人囉 可以考慮前往預選"
 
         if (_userinfo_canchosemoredepartment == 0):
-            print(str(userid)+ " "+ str(_classinfo[0][2]))
+            #print(str(userid)+ " "+ str(_classinfo[0][2]))
             if (domi_account.comp_userdepartment_departmentid(int(userid),int(_classinfo[0][2])) != "success" ):
                 return "你尚未獲得外系選修資格"
 
@@ -43,8 +43,8 @@ def add_userclass(userid,courseid):
             addstudentnuminclass(_classinfo[0][0])
             return 'success'
         
-    else:
-        return 'a'
+    except:
+        return '你尚未選擇任何課程'
 
 
 def _insert_into_classlist(classname ,time ,userdbname):
@@ -129,4 +129,4 @@ def addstudentnuminclass(class_id):
 
 #addstudentnuminclass('IECS0666')
 
-#print(add_userclass(3,"IECS0003"))
+#print(add_userclass(6,"IECS0002"))

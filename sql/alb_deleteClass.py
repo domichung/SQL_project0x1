@@ -40,16 +40,16 @@ def is_default_or_not(course_ID,user_ID):
     # print(default_data)
     if default_data is None:
         print("Failed to load default class data")
-        # print("µLªkÀò¨ú½Òµ{¼Æ¾Ú!")
+        # print("ï¿½Lï¿½kï¿½ï¿½ï¿½ï¿½Òµ{ï¿½Æ¾ï¿½!")
         return False
     
     if (course_ID,) in default_data:
         print("Course {} is a default course".format(course_ID))
-        # print("{} ¬O¥²­×½Ò".format(course_ID))
+        # print("{} ï¿½Oï¿½ï¿½ï¿½×½ï¿½".format(course_ID))
         return True
     else:
         print("Course {} is not a default course".format(course_ID))
-        # print("{} ¤£¬O¥²­×½Ò".format(course_ID))
+        # print("{} ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½×½ï¿½".format(course_ID))
         return False
 
 # is_default_or_not("IECS0666","2")
@@ -104,10 +104,10 @@ def delete_user_class(course_ID,user_ID):
         
     cursor = conn.cursor()
         
-    # ­×§ï SQL ¬d¸ß¡A¥u¿ï¾Ü«ü©w¦W¦rªº¸ê®Æ
+    # ï¿½×§ï¿½ SQL ï¿½dï¿½ß¡Aï¿½uï¿½ï¿½Ü«ï¿½ï¿½wï¿½Wï¿½rï¿½ï¿½ï¿½ï¿½ï¿½
     cursor.execute("SELECT class_point FROM course WHERE course_id = %s", (course_ID,))
         
-    # ¨ú±o©Ò¦³²Å¦X±ø¥óªº¸ê®Æ
+    # ï¿½ï¿½ï¿½oï¿½Ò¦ï¿½ï¿½Å¦Xï¿½ï¿½ï¿½óªº¸ï¿½ï¿½
     classpoint = cursor.fetchall()
     classpoint_value = int(classpoint[0][0])
     
@@ -121,10 +121,10 @@ def delete_user_class(course_ID,user_ID):
         
     cursor = conn.cursor()
         
-    # ­×§ï SQL ¬d¸ß¡A¥u¿ï¾Ü«ü©wIDªº¸ê®Æ
+    # ï¿½×§ï¿½ SQL ï¿½dï¿½ß¡Aï¿½uï¿½ï¿½Ü«ï¿½ï¿½wIDï¿½ï¿½ï¿½ï¿½ï¿½
     cursor.execute("SELECT user_class_count FROM user_box WHERE id = %s", (user_ID,))
         
-    # ¨ú±o©Ò¦³²Å¦X±ø¥óªº¸ê®Æ
+    # ï¿½ï¿½ï¿½oï¿½Ò¦ï¿½ï¿½Å¦Xï¿½ï¿½ï¿½óªº¸ï¿½ï¿½
     userpoint = cursor.fetchall()
     userpoint_value = int(userpoint[0][0])
 
@@ -132,15 +132,18 @@ def delete_user_class(course_ID,user_ID):
     conn.close()
 
     if(userpoint_value - classpoint_value < 9):
-        print("can't lower than 9 classpoint !!!")
+        #print("can't lower than 9 classpoint !!!")
+        return "å­¸åˆ†æ•¸ä¸å¯ä½Žæ–¼9å­¸åˆ†"
 
+    
+    if(is_default_or_not(course_ID, user_ID)):
+        #print("Required course can not drop !!!")
+        return "å¿…ä¿®èª²ä¸èƒ½é€€é¸"    
     else:
-        if(is_default_or_not(course_ID, user_ID)):
-            print("Required course can not drop !!!")    
-        else:
-            update_user_class(user_ID, course_ID)
-            minus_classpoint(user_ID, classpoint_value)
-            killstudentnuminclass(course_ID)
+        update_user_class(user_ID, course_ID)
+        minus_classpoint(user_ID, classpoint_value)
+        killstudentnuminclass(course_ID)
+        return "success"
         
         
 # delete_user_class('IECS0003','3')

@@ -2,10 +2,10 @@
 # coding=utf-8
 # -*- coding: UTF-8 -*-
 from flask import Flask, request, render_template, redirect ,url_for ,session
-import  domi_registerlist ,domi_login ,domi_account 
+import  domi_registerlist ,domi_login ,domi_account,domi_dice_classlist
 import  domi_userlist ,domi_adminsys ,domi_newlogin
 import  domi_listmyclass,domi_replacearr,domi_loadcanichoose
-import  domi_addclass
+import  domi_addclass,domi_loadcanileave,alb_deleteClass,domi_classnamepromax
 
 
 app = Flask(__name__)
@@ -88,7 +88,7 @@ def rou_register_s():
 
 @app.route('/choose/<choose_user_id>', methods=['GET'])
 def rou_choose_setuser(choose_user_id):
-    session['choose_user'] = choose_user_id
+    session['choose_user'] = choose_user_id  
     return redirect(url_for('rou_choose_mainpage'))
 
 @app.route('/choose/main', methods=['GET'])
@@ -99,6 +99,60 @@ def rou_choose_mainpage():
     studentbonusclass = domi_account.find_moreclass_byid(studentid)
     nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
     class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanichoose.givemeallcalss())
+    try:
+        will_list = domi_dice_classlist.read_userwillchooselist(studentid)
+    except:
+        will_list = "尚未預選"
+
+    timeSlots = [
+    "第 一 節 08:10 ~ 09:00",
+    "第 二 節 09:10 ~ 10:00",
+    "第 三 節 10:10 ~ 11:00",
+    "第 四 節 11:10 ~ 12:00",
+    "第 五 節 12:10 ~ 13:00",
+    "第 六 節 13:10 ~ 14:00",
+    "第 七 節 14:10 ~ 15:00",
+    "第 八 節 15:10 ~ 16:00",
+    "第 九 節 16:10 ~ 17:00",
+    "第 十 節 17:10 ~ 18:00",
+    "第十一節 18:30 ~ 19:20",
+    "第十二節 19:25 ~ 20:15",
+    "第十三節 20:25 ~ 21:15",
+    "第十四節 21:20 ~ 22:10"
+    ]
+
+    if (session.get('showmode',"0") == 1):
+        classlist = domi_classnamepromax.promax_input(classlist)
+        will_list = domi_classnamepromax.promax_input(will_list)
+
+    counter = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+
+    return render_template('choose_main.html', studentname = studentname, classlist=classlist 
+                                             , timeSlots = timeSlots ,counter = counter 
+                                             , studentbonusclass = studentbonusclass 
+                                             , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed
+                                             , will_list = domi_classnamepromax.promax_input_string(will_list))
+
+#=========================退選路由
+
+@app.route('/choose/leave/<unchoose_user_id>', methods=['GET'])
+def rou_unchoose_setuser(unchoose_user_id):
+    session['choose_user'] = unchoose_user_id
+    return redirect(url_for('rou_unchoose_mainpage'))
+
+@app.route('/choose/unchoose', methods=['GET'])
+def rou_unchoose_mainpage():
+    studentid = session.get('choose_user', 'NULLID')
+    classlist = domi_replacearr.replace(domi_listmyclass.get_students_classlist(studentid))
+    studentname = domi_account.find_name_id(studentid)
+    studentbonusclass = domi_account.find_moreclass_byid(studentid)
+    nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
+    class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanileave.unchoose_list(studentid))
+
+    try:
+        will_list = domi_dice_classlist.read_userwillchooselist(studentid)
+    except:
+        will_list = "尚未預選"
 
     timeSlots = [
     "第 一 節 08:10 ~ 09:00",
@@ -119,10 +173,65 @@ def rou_choose_mainpage():
 
     counter = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
 
-    return render_template('choose_main.html', studentname = studentname, classlist=classlist 
+    if (session.get('showmode',"0") == 1):
+        classlist = domi_classnamepromax.promax_input(classlist)
+        will_list = domi_classnamepromax.promax_input(will_list)
+
+    return render_template('unchoose_main.html', studentname = studentname, classlist=classlist 
                                              , timeSlots = timeSlots ,counter = counter 
                                              , studentbonusclass = studentbonusclass 
-                                             , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed)
+                                             , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed
+                                             , will_list = domi_classnamepromax.promax_input_string(will_list))
+
+#=========================預選路由
+
+@app.route('/choose/will/<willchoose_user_id>', methods=['GET'])
+def rou_willchoose_setuser(willchoose_user_id):
+    session['choose_user'] = willchoose_user_id
+    return redirect(url_for('rou_willchoose_mainpage'))
+
+@app.route('/choose/willchoose', methods=['GET'])
+def rou_willchoose_mainpage():
+    studentid = session.get('choose_user', 'NULLID')
+    classlist = domi_replacearr.replace(domi_listmyclass.get_students_classlist(studentid))
+    studentname = domi_account.find_name_id(studentid)
+    studentbonusclass = domi_account.find_moreclass_byid(studentid)
+    nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
+    class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanichoose.givemeallcalss())
+
+    try:
+        will_list = domi_dice_classlist.read_userwillchooselist(studentid)
+    except:
+        will_list = "尚未預選"
+
+    timeSlots = [
+    "第 一 節 08:10 ~ 09:00",
+    "第 二 節 09:10 ~ 10:00",
+    "第 三 節 10:10 ~ 11:00",
+    "第 四 節 11:10 ~ 12:00",
+    "第 五 節 12:10 ~ 13:00",
+    "第 六 節 13:10 ~ 14:00",
+    "第 七 節 14:10 ~ 15:00",
+    "第 八 節 15:10 ~ 16:00",
+    "第 九 節 16:10 ~ 17:00",
+    "第 十 節 17:10 ~ 18:00",
+    "第十一節 18:30 ~ 19:20",
+    "第十二節 19:25 ~ 20:15",
+    "第十三節 20:25 ~ 21:15",
+    "第十四節 21:20 ~ 22:10"
+    ]
+
+    counter = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+
+    if (session.get('showmode',"0") == 1):
+        classlist = domi_classnamepromax.promax_input(classlist)
+        will_list = domi_classnamepromax.promax_input(will_list)
+
+    return render_template('willchoose_main.html', studentname = studentname, classlist=classlist 
+                                             , timeSlots = timeSlots ,counter = counter 
+                                             , studentbonusclass = studentbonusclass 
+                                             , nowchoosepoin = nowchoosepoin, class_ineed = class_ineed
+                                             , will_list = domi_classnamepromax.promax_input_string(will_list))
 
 #=========================以下腳本
 
@@ -174,12 +283,41 @@ def script_admin_change():
         domi_adminsys.change_user_info(settinguserid ,username ,pw ,email ,birthday ,grade ,chosenotheredepartment ,Department ,moreclass ,newusercheck ,abcdclass)
         return redirect(url_for('rou_admin'))
 
+@app.route('/choose_main_change', methods=['POST'])
+def script_change_page():
+    next1 = request.form.get("add")
+    next2 = request.form.get("kill")
+    next3 = request.form.get("wait")
+    next4 = request.form.get("showchange")
+    idcallback = session.get('choose_user', 'NULLID')
+    if next1:
+        #print("case1")
+        return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
+    if next2:
+        #print("case2")
+        return redirect(url_for('rou_unchoose_setuser', unchoose_user_id = idcallback))
+    if next3:
+        #print("case3")
+        return redirect(url_for('rou_willchoose_setuser', willchoose_user_id = idcallback))
+    if next4:
+        if (session.get('showmode',"0") == 1):
+            session['showmode'] = 0
+        else:
+            session['showmode'] = 1
+        return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
+
+
 @app.route('/choose_main', methods=['POST'])
 def script_choose():
     next = request.form.get("test")
+    test = request.form.get("showchange")
     willaddclass = request.form.get("chooselist").split()[0]
     studentid = session.get('choose_user', 'NULLID')
     #print(willaddclass + "!!!!!!!!!!!!!!!!!!!!")
+
+    #if (test == "on"):
+        #print("a")
+
     if next:
         reason = domi_addclass.add_userclass(studentid,willaddclass)
         if (reason == "success"):
@@ -200,6 +338,63 @@ def script_choose_success():
     idcallback = session.get('choose_user', 'NULLID')
     if back:
         return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
+    
+
+@app.route('/unchoose_main', methods=['POST'])
+def script_unchoose():
+    next = request.form.get("setting")
+    willdeleteclass = request.form.get("unchooselist").split()[0]
+    studentid = session.get('choose_user', 'NULLID')
+    if next:
+        try:
+            reason = alb_deleteClass.delete_user_class(willdeleteclass,studentid)
+            if (reason == "success"):
+                return render_template('unchoose_success.html',name= willdeleteclass)
+            else:
+                return render_template('unchoose_faild.html',reason = reason)
+        except:
+            return render_template('unchoose_faild.html',reason = "你尚未選取要退選課")
+        
+@app.route('/unchoose_faild', methods=['POST'])
+def script_unchoose_faild():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_unchoose_setuser', unchoose_user_id = idcallback))
+
+@app.route('/unchoose_success', methods=['POST'])
+def script_unchoose_success():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_unchoose_setuser', unchoose_user_id = idcallback))
+    
+@app.route('/willchoose_main', methods=['POST'])
+def script_willchoose():
+    next = request.form.get("setting")
+    willclass = request.form.get("willchooselist").split()[0]
+    studentid = session.get('choose_user', 'NULLID')
+    if next:
+        reason = domi_dice_classlist.dic_main(studentid,willclass)
+        if (reason == "success"):
+            return render_template('willchoose_success.html',name= willclass)
+        else:
+            return render_template('willchoose_faild.html',reason = reason)
+        
+@app.route('/willchoose_faild', methods=['POST'])
+def script_willchoose_faild():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_willchoose_setuser', willchoose_user_id = idcallback))
+
+@app.route('/willchoose_success', methods=['POST'])
+def script_willchoose_success():
+    back = request.form.get("backtochoose")
+    idcallback = session.get('choose_user', 'NULLID')
+    if back:
+        return redirect(url_for('rou_willchoose_setuser', willchoose_user_id = idcallback))
+
 
 @app.route('/login', methods=['POST'])
 def script_login():
@@ -221,6 +416,7 @@ def script_login():
         elif (results == 2):
             print("已經登入過囉歡迎回來\n")
 
+        session['showmode'] = 0
         return redirect(url_for('rou_choose_setuser', choose_user_id = idcallback))
 
 @app.route('/login_faild', methods=['POST'])

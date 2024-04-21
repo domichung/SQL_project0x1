@@ -46,7 +46,10 @@ def givemeclasssclearalreadychoose(userid):
 def comclasschose(checkclass,userid):
     ld = givemeclasssclearalreadychoose(int(userid))
     flag = 1
-    for i in range(1,len(ld)):
+    #print(ld)
+    for i in range (len(ld)):
+        #print(checkclass)
+        #print(ld[i])
         if (checkclass == ld[i]):
             flag = 0
         
@@ -55,7 +58,7 @@ def comclasschose(checkclass,userid):
     else:
         return "success"
 
-#print(comclasschose("IEC001",3))
+#print(comclasschose("IECS0004",2))
 
 #givemeclasssclearalreadychoose(3)
 
