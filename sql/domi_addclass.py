@@ -1,6 +1,6 @@
 import MySQLdb 
 import domi_classinfo , domi_checkclasssys ,domi_timmercut , domi_loadcanichoose 
-import domi_account , alb_sameNameClass
+import domi_account , alb_sameNameClass , alb_passclass
 
 
 def add_userclass(userid,courseid):
@@ -27,9 +27,15 @@ def add_userclass(userid,courseid):
         if (domi_checkclasssys.check_classpint_inrange(userid , _classinfo[0][4]) == "faild"):
             return "你已抵達學分上限 整個深淵都為你撼動"
         
-        #print("n")
-        #選課人數超過上限
+        if (alb_passclass.is_pass_or_not(courseid) == True):
+            check = alb_passclass.find_after_pass(courseid)
+            if (alb_passclass.check_if_pass_or_not(check,userid) == False):
+                return "你尚未通過擋修科目"
 
+        if (alb_passclass.check_if_pass_or_not(courseid,userid) == True):
+            return "你曾經選修 並以通關這堂課囉"
+
+        #選課人數超過上限
         if ( int(_classinfo[0][8]) + 1 > int(_classinfo[0][7])):
             return "滿人囉 可以考慮前往預選"
 

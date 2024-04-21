@@ -52,17 +52,17 @@ def is_pass_or_not(course_ID):
         # need to pass the before course
         # NEXT STEP:find the course you need to pass (find_after_pass)
         if subordinate and subordinate[0][0] == "yes":
-            print("yes")
+            #print("yes")
             return True
         # can choose this course immediately
         else:
-            print("no")
+            #print("no")
             return False
     
     except:
         return 'failed'
 
-# is_pass_or_not('IECS0666')
+#print(is_pass_or_not('IECS0666'))
 
 # find what course should pass first
 def find_after_pass(course_ID):
@@ -90,7 +90,7 @@ def find_after_pass(course_ID):
     except:
         return 'failed'
     
-# find_after_pass('IECS0666')
+#print(find_after_pass('IECS0666'))
 
 
 
@@ -116,25 +116,25 @@ def check_if_pass_or_not(pass_course_ID,user_ID):
         # CAN NOT CHOOSE "THIS" COURSE AGAIN!!!
         # can choose the after one (subordinate)
         if pass_status and pass_status[0][0] == "pass":
-            print("pass")
+            #print("pass")
             return True
         # if not pass return false
         # CAN CHOOSE THIS COURSE 
         # can not choose after one
         else:
-            print("not pass")
+            #print("not pass")
             return False
     except:
-        return 'failed'
+        return False
     
-# check_if_pass_or_not('IECS0002',"3")
+#print(check_if_pass_or_not('IECS0002',"3"))
 
 
 
 # # test code
-# if (is_pass_or_not('IECS0666')):
-#     a = find_after_pass('IECS0666')
-#     check_if_pass_or_not(a,'3')
-# else:
-#     print("wwwww")
+#if (is_pass_or_not('IECS0666')):
+    #a = find_after_pass('IECS0666')
+    #check_if_pass_or_not(a,'3')
+#else:
+    #print("wwwww")
 # # test code
