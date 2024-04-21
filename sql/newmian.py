@@ -151,8 +151,10 @@ def rou_unchoose_mainpage():
 
     try:
         class_ineed = domi_loadcanichoose.simplify_courses(domi_loadcanileave.unchoose_list(studentid))
+        if (class_ineed == [] ):
+            class_ineed = domi_littleeggggy.re_sellectlist_second()
     except:
-        class_ineed = class_ineed = domi_littleeggggy.re_sellectlist_second()
+        class_ineed = domi_littleeggggy.re_sellectlist_second()
 
     try:
         will_list = domi_dice_classlist.read_userwillchooselist(studentid)
@@ -254,6 +256,8 @@ def rou_unwillchoose_mainpage():
     nowchoosepoin = domi_account.find_userclasscount_byid(studentid)
     try:
         class_ineed = domi_classnamepromax.flatten_2d_array(domi_classnamepromax.promax_input(domi_dice_classlist.read_userwillchooselist(studentid)))
+        if (class_ineed == [] ):
+            class_ineed = domi_littleeggggy.re_sellectlist()
     except:
         class_ineed = domi_littleeggggy.re_sellectlist()
     #print(domi_classnamepromax.flatten_2d_array(domi_dice_classlist.read_userwillchooselist(studentid)))
@@ -411,7 +415,8 @@ def script_unchoose():
     studentid = session.get('choose_user', 'NULLID')
     if next:
         if (willdeleteclass  == "閃亮亮的彩蛋~~"):
-                return render_template('easteregggggy.html')  
+                return render_template('easteregggggy.html')
+          
         try:
             reason = alb_deleteClass.delete_user_class(willdeleteclass,studentid)
             if (reason == "success"):
@@ -470,13 +475,16 @@ def script_unwillchoose():
         #print(willclass)
         willclass = domi_diceleave_classlist.change_name_to_id(willclass)
         #print(willclass)
-        reason = domi_diceleave_classlist.leavewillclass(studentid,willclass[0])
-        if (willclass == "閃亮亮的彩蛋~~"):
-            return render_template('easteregggggy.html')
-        elif (reason == "success"):
-            return render_template('unwillchoose_success.html',name= willclass)
-        else:
-            return render_template('unwillchoose_faild.html',reason = reason)
+        try:
+            if (willclass == "閃亮亮的彩蛋~~"):
+                return render_template('easteregggggy.html')
+            reason = domi_diceleave_classlist.leavewillclass(studentid,willclass[0])
+            if (reason == "success"):
+                return render_template('unwillchoose_success.html',name= willclass)
+            else:
+                return render_template('unwillchoose_faild.html',reason = reason)
+        except:
+            return render_template('unwillchoose_faild.html',reason = "你尚未選取要退預選課")
         
 @app.route('/unwillchoose_faild', methods=['POST'])
 def script_leavewillchoose_faild():
